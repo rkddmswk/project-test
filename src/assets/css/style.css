@@ -301,90 +301,90 @@ select {
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 100;
-  src: url("../fonts/NotoSansKR-Thin.eot");
-  src: url("../fonts/NotoSansKR-Thin.eot?#iefix") format("embedded-opentype"),
+  /* src: url("../fonts/NotoSansKR-Thin.eot"); */
+  /* src: url("../fonts/NotoSansKR-Thin.eot?#iefix") format("embedded-opentype"),
     local("※"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2")
       format("woff2"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff")
       format("woff"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf")
-      format("opentype");
+      format("opentype"); */
 }
 
 @font-face {
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 300;
-  src: url("../fonts/NotoSansKR-Light.eot");
-  src: url("../fonts/NotoSansKR-Light.eot?#iefix") format("embedded-opentype"),
+  /* src: url("../fonts/NotoSansKR-Light.eot"); */
+  /* src: url("../fonts/NotoSansKR-Light.eot?#iefix") format("embedded-opentype"),
     local("※"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2")
       format("woff2"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff")
       format("woff"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf")
-      format("opentype");
+      format("opentype"); */
 }
 
 @font-face {
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 400;
-  src: url("../fonts/NotoSansKR-Regular.eot");
-  src: url("../fonts/NotoSansKR-Regular.eot?#iefix") format("embedded-opentype"),
+  /* src: url("../fonts/NotoSansKR-Regular.eot"); */
+  /* src: url("../fonts/NotoSansKR-Regular.eot?#iefix") format("embedded-opentype"),
     local("※"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2")
       format("woff2"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff")
       format("woff"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf")
-      format("opentype");
+      format("opentype"); */
 }
 
 @font-face {
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 500;
-  src: url("../fonts/NotoSansKR-Medium.eot");
-  src: url("../fonts/NotoSansKR-Medium.eot?#iefix") format("embedded-opentype"),
+  /* src: url("../fonts/NotoSansKR-Medium.eot"); */
+  /* src: url("../fonts/NotoSansKR-Medium.eot?#iefix") format("embedded-opentype"),
     local("※"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2")
       format("woff2"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff")
       format("woff"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf")
-      format("opentype");
+      format("opentype"); */
 }
 
 @font-face {
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 700;
-  src: url("../fonts/NotoSansKR-Bold.eot");
-  src: url("../fonts/NotoSansKR-Bold.eot?#iefix") format("embedded-opentype"),
+  /* src: url("../fonts/NotoSansKR-Bold.eot"); */
+  /* src: url("../fonts/NotoSansKR-Bold.eot?#iefix") format("embedded-opentype"),
     local("※"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2")
       format("woff2"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff")
       format("woff"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf")
-      format("opentype");
+      format("opentype"); */
 }
 
 @font-face {
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 900;
-  src: url("../fonts/NotoSansKR-Black.eot");
-  src: url("../fonts/NotoSansKR-Black.eot?#iefix") format("embedded-opentype"),
+  /* src: url("../fonts/NotoSansKR-Black.eot"); */
+  /* src: url("../fonts/NotoSansKR-Black.eot?#iefix") format("embedded-opentype"),
     local("※"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2")
       format("woff2"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff")
       format("woff"),
     url("//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf")
-      format("opentype");
+      format("opentype"); */
 }
 
 :lang(ko) {
@@ -876,7 +876,7 @@ tr.on {
 .btn-iconDelete:before {
   width: 8px;
   margin-right: 7px;
-  background-image: url("../img/ico-deleteWhite.png");
+  /* background-image: url("../img/ico-deleteWhite.png"); */
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -884,28 +884,28 @@ tr.on {
 .btn-iconCheck:before {
   width: 11px;
   margin-right: 6px;
-  background-image: url("../img/ico-checkWhite.png");
+  /* background-image: url("../img/ico-checkWhite.png"); */
   background-repeat: no-repeat;
   background-position: center center;
 }
 
 .btn-iconGreenPlus:before {
   width: 11px;
-  background-image: url("../img/ico-plus-green.png");
+  /* background-image: url("../img/ico-plus-green.png"); */
   background-repeat: no-repeat;
   background-position: center center;
 }
 
 .btn-iconWhitePlus:before {
   width: 11px;
-  background-image: url("../img/ico-plus-white.png");
+  /* background-image: url("../img/ico-plus-white.png"); */
   background-repeat: no-repeat;
   background-position: center center;
 }
 
 .btn-iconRefresh:before {
   width: 14px;
-  background-image: url("../img/ico-refresh.png");
+  /* background-image: url("../img/ico-refresh.png"); */
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -913,7 +913,7 @@ tr.on {
 .btn-iconConfirm:before {
   width: 18px;
   margin-right: 9px;
-  background-image: url("../img/ico-circleCheck.png");
+  /* background-image: url("../img/ico-circleCheck.png"); */
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -1006,7 +1006,7 @@ form fieldset {
   width: 20px;
   height: 20px;
   margin-top: -10px;
-  background: url("../img/btn-inputDelete.png") no-repeat 0 0;
+  /* background: url("../img/btn-inputDelete.png") no-repeat 0 0; */
 }
 
 .inputTextArea.autoCompleteArea .autocompleteLayer {
@@ -1047,12 +1047,12 @@ form fieldset {
   left: 0;
   z-index: 1;
   padding-left: 24px;
-  background: #fff url("../img/radio-unChecked.png") no-repeat 0 center;
+  /* background: #fff url("../img/radio-unChecked.png") no-repeat 0 center; */
   letter-spacing: -0.05em;
 }
 
 .radioArea > div input:checked + label {
-  background-image: url("../img/radio-checked.png");
+  /* background-image: url("../img/radio-checked.png"); */
 }
 
 .selectArea {
@@ -1080,7 +1080,7 @@ form fieldset {
   width: 8px;
   height: 4px;
   margin-top: -2px;
-  background-image: url("../img/arr-selectDown.png");
+  /* background-image: url("../img/arr-selectDown.png"); */
   background-repeat: no-repeat;
   background-position: 0 0;
   content: "";
@@ -1133,7 +1133,7 @@ form fieldset {
   width: 8px;
   height: 4px;
   margin-top: -2px;
-  background-image: url("../img/arr-selectUp.png");
+  /* background-image: url("../img/arr-selectUp.png"); */
   content: "";
 }
 
@@ -1196,7 +1196,7 @@ form fieldset {
   display: block;
   width: 14px;
   height: 8px;
-  background: url("../img/tail-dropdownLayer.png") no-repeat 0 0;
+  /* background: url("../img/tail-dropdownLayer.png") no-repeat 0 0; */
   content: "";
 }
 
@@ -1248,12 +1248,12 @@ form fieldset {
 
 .selectArea.calendarArea .calendarWrap .calendarHeader .prevMonth {
   left: 16px;
-  background: url("../img/arr-calendarPrev-2.png") no-repeat center;
+  /* background: url("../img/arr-calendarPrev-2.png") no-repeat center; */
 }
 
 .selectArea.calendarArea .calendarWrap .calendarHeader .nextMonth {
   right: 16px;
-  background: url("../img/arr-calendarNext-2.png") no-repeat center;
+  /* background: url("../img/arr-calendarNext-2.png") no-repeat center; */
 }
 
 .selectArea.calendarArea .calendarWrap .calendarBody {
@@ -1543,12 +1543,12 @@ form fieldset {
   left: 0;
   z-index: 1;
   padding-left: 26px;
-  background: url("../img/chk-unChecked.png") no-repeat 0 center;
+  /* background: url("../img/chk-unChecked.png") no-repeat 0 center; */
   letter-spacing: -0.025em;
 }
 
 .checkboxArea input:checked + label {
-  background-image: url("../img/chk-checked.png");
+  /* background-image: url("../img/chk-checked.png"); */
 }
 
 .onOffSwitchArea {
@@ -1966,35 +1966,35 @@ h1.logo.ir {
 }
 
 #header .headerNav .depth1 li .iconHome {
-  background: url("../img/ico-home.png") no-repeat 24px center;
+  /* background: url("../img/ico-home.png") no-repeat 24px center; */
 }
 
 #header .headerNav .depth1 li .iconMypage {
-  background: url("../img/ico-mypage.png") no-repeat 24px center;
+  /* background: url("../img/ico-mypage.png") no-repeat 24px center; */
 }
 
 #header .headerNav .depth1 li .iconBriefcase {
-  background: url("../img/ico-briefcase.png") no-repeat 24px center;
+  /* background: url("../img/ico-briefcase.png") no-repeat 24px center; */
 }
 
 #header .headerNav .depth1 li .iconLoudspeaker {
-  background: url("../img/ico-loudspeaker.png") no-repeat 24px center;
+  /* background: url("../img/ico-loudspeaker.png") no-repeat 24px center; */
 }
 
 #header .headerNav .depth1 li .iconHome.active {
-  background-image: url("../img/ico-home-active.png");
+  /* background-image: url("../img/ico-home-active.png"); */
 }
 
 #header .headerNav .depth1 li .iconMypage.active {
-  background-image: url("../img/ico-mypage-active.png");
+  /* background-image: url("../img/ico-mypage-active.png"); */
 }
 
 #header .headerNav .depth1 li .iconBriefcase.active {
-  background-image: url("../img/ico-briefcase-active.png");
+  /* background-image: url("../img/ico-briefcase-active.png"); */
 }
 
 #header .headerNav .depth1 li .iconLoudspeaker.active {
-  background-image: url("../img/ico--active.png");
+  /* background-image: url("../img/ico--active.png"); */
 }
 
 #header .headerNav .depth1 > li > .active {
@@ -2066,10 +2066,11 @@ h1.logo.ir {
 --------------------------------------------------------------*/
 .container .guestBox {
   position: absolute;
-  top: 50%;
   left: 50%;
-  width: 440px;
-  margin-left: -200px;
+  width: 500px;
+  height: 450px;
+  transform: translate(-50%);
+  margin-top: 250px;
   padding: 50px;
   background: #fff;
   -webkit-box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.4);
@@ -2121,7 +2122,7 @@ h1.logo.ir {
 }
 
 .container.login .guestBox {
-  margin-top: -229px;
+  /* margin-top: -229px; */
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -2140,7 +2141,7 @@ h1.logo.ir {
 9.1.3 Contents - Login/Join - Join
 --------------------------------------------------------------*/
 .container.joinPhone {
-  background: url("../img/bg-joinPhone.jpg") no-repeat center center;
+  /* background: url("../img/bg-joinPhone.jpg") no-repeat center center; */
   background-size: cover;
 }
 
@@ -2172,7 +2173,7 @@ h1.logo.ir {
 }
 
 .container.joinMember {
-  background: url("../img/bg-joinMember.jpg") no-repeat center center;
+  /* background: url("../img/bg-joinMember.jpg") no-repeat center center; */
   background-size: cover;
 }
 
@@ -2230,26 +2231,26 @@ h1.logo.ir {
 
 #sectionHeader .left .fnList li button.modification {
   padding-left: 18px;
-  background: transparent url("../img/ico-sectionHeaderModification.png")
-    no-repeat 0 center;
+  /* background: transparent url("../img/ico-sectionHeaderModification.png")
+    no-repeat 0 center; */
 }
 
 #sectionHeader .left .fnList li button.division {
   padding-left: 14px;
-  background: transparent url("../img/ico-sectionHeaderDivision.png") no-repeat
-    0 center;
+  /* background: transparent url("../img/ico-sectionHeaderDivision.png") no-repeat */
+  /* 0 center; */
 }
 
 #sectionHeader .left .fnList li button.staff {
   padding-left: 19px;
-  background: transparent url("../img/ico-sectionHeaderStaff.png") no-repeat 0
-    center;
+  /* background: transparent url("../img/ico-sectionHeaderStaff.png") no-repeat 0 */
+  /* center; */
 }
 
 #sectionHeader .left .fnList li button.invite {
   padding-left: 15px;
-  background: transparent url("../img/ico-sectionHeaderInvite.png") no-repeat 0
-    center;
+  /* background: transparent url("../img/ico-sectionHeaderInvite.png") no-repeat 0 */
+  /* center; */
 }
 
 #sectionHeader .left {
@@ -2892,19 +2893,19 @@ h1.subTitle {
 }
 
 .sectionTitle.iconDeparture {
-  background: url("../img/ico-airplaneDeparture.png") no-repeat 0 center;
+  /* background: url("../img/ico-airplaneDeparture.png") no-repeat 0 center; */
 }
 
 .sectionTitle.iconArrival {
-  background: url("../img/ico-airplaneArrival.png") no-repeat 0 center;
+  /* background: url("../img/ico-airplaneArrival.png") no-repeat 0 center; */
 }
 
 .sectionTitle.iconCompanion {
-  background: url("../img/ico-companion.png") no-repeat 0 center;
+  /* background: url("../img/ico-companion.png") no-repeat 0 center; */
 }
 
 .sectionTitle.iconGuest {
-  background: url("../img/ico-guest.png") no-repeat 0 center;
+  /* background: url("../img/ico-guest.png") no-repeat 0 center; */
 }
 
 .sectionTitle.bgRed {
@@ -2980,17 +2981,17 @@ h1.subTitle {
 
 .sectionTapMuenArea ul li button.plane:before {
   width: 18px;
-  background-image: url("../img/ico-plane-gray.png");
+  /* background-image: url("../img/ico-plane-gray.png"); */
 }
 
 .sectionTapMuenArea ul li button.hotel:before {
   width: 16px;
-  background-image: url("../img/ico-hotel-gray.png");
+  /* background-image: url("../img/ico-hotel-gray.png"); */
 }
 
 .sectionTapMuenArea ul li button.planeHotel:before {
   width: 23px;
-  background-image: url("../img/ico-planeHotel-gray.png");
+  /* background-image: url("../img/ico-planeHotel-gray.png"); */
 }
 
 .sectionTapMuenArea ul li:last-child button {
@@ -3003,15 +3004,15 @@ h1.subTitle {
 }
 
 .sectionTapMuenArea ul li.active button.plane:before {
-  background-image: url("../img/ico-plane-navy.png");
+  /* background-image: url("../img/ico-plane-navy.png"); */
 }
 
 .sectionTapMuenArea ul li.active button.hotel:before {
-  background-image: url("../img/ico-hotel-navy.png");
+  /* background-image: url("../img/ico-hotel-navy.png"); */
 }
 
 .sectionTapMuenArea ul li.active button.planeHotel:before {
-  background-image: url("../img/ico-planeHotel-navy.png");
+  /* background-image: url("../img/ico-planeHotel-navy.png"); */
 }
 
 .sectionTapMuenArea.type2 {
@@ -3108,7 +3109,7 @@ h1.subTitle {
   display: inline-block;
   width: 16px;
   height: 18px;
-  background: url("../img/ico-exclamationMark.png") no-repeat 0 center;
+  /* background: url("../img/ico-exclamationMark.png") no-repeat 0 center; */
   vertical-align: text-bottom;
   content: "";
 }
@@ -3259,7 +3260,7 @@ div.sweet-alert div {
   bottom: -2px;
   width: 30px;
   height: 30px;
-  background: url("../img/btn-camera.png") no-repeat 0 0;
+  /* background: url("../img/btn-camera.png") no-repeat 0 0; */
 }
 
 .myInfoSection > section .editMode {
@@ -3427,7 +3428,7 @@ div.sweet-alert div {
   top: 2px;
   width: 17px;
   height: 25px;
-  background: url("../img/ion-slider.png") no-repeat 0 0;
+  /* background: url("../img/ion-slider.png") no-repeat 0 0; */
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -3560,13 +3561,13 @@ div.sweet-alert div {
 .bizTripRequestArea
   .companionBtnArea
   .addCompanionOpener.btn-orange-invert:after {
-  background-image: url("../img/arr-down-orange.png");
+  /* background-image: url("../img/arr-down-orange.png"); */
   background-repeat: no-repeat;
   background-position: 0 center;
 }
 
 .bizTripRequestArea .companionBtnArea .addCompanionOpener.btn-orange:after {
-  background-image: url("../img/arr-up-white.png");
+  /* background-image: url("../img/arr-up-white.png"); */
   background-repeat: no-repeat;
   background-position: 0 center;
 }
@@ -3584,7 +3585,7 @@ div.sweet-alert div {
   display: block;
   width: 14px;
   height: 8px;
-  background: url("../img/tail-sectionArea.png") no-repeat 0 0;
+  /* background: url("../img/tail-sectionArea.png") no-repeat 0 0; */
   content: "";
 }
 
@@ -3687,11 +3688,11 @@ div.sweet-alert div {
 }
 
 .calendarSection .fc .fc-prev-button {
-  background: url("../img/arr-calendarPrev.png") no-repeat center center;
+  /* background: url("../img/arr-calendarPrev.png") no-repeat center center; */
 }
 
 .calendarSection .fc .fc-next-button {
-  background: url("../img/arr-calendarNext.png") no-repeat center center;
+  /* background: url("../img/arr-calendarNext.png") no-repeat center center; */
 }
 
 .calendarSection .fc .fc-today-button {

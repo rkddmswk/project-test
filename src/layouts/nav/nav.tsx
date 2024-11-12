@@ -4,7 +4,7 @@ import { Add, List, PersonAdd, ChangeHistory } from "@mui/icons-material";
 const Nav = () => {
   return (
     <>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex", float: "left" }}>
         <Paper
           // anchor="left"
           // variant="permanent"

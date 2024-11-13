@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -8,19 +9,42 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+// import { LocalizationProvider } from "@mui/x-date-pickers";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
-import { useNavigate } from "react-router-dom";
-import Header from "../../layouts/header/Header";
+import { useLocation, useNavigate } from "react-router-dom";
+import Header from "../../layouts/header/header";
 import Nav from "../../layouts/nav/nav";
+import { useEffect, useState } from "react";
+import api from "../../api/api";
 
 const User = () => {
   const navigate = useNavigate();
+  // const location = useLocation();
+  const [userInfoData, setUserInfoData] = useState([]);
+
+  // useEffect(() => {
+  //   const data = localStorage.getItem("userInfoData");
+  //   if (data) {
+  //     setUserInfoData(JSON.parse(data));
+  //   }
+  // }, [userInfoData]);
+
+  useEffect(() => {
+    api
+      .get("https://localhost:3000/api/userInfo")
+      .then((res) => {
+        console.log(res.data);
+        setUserInfoData(res.data);
+      })
+      .catch((error) => {
+        console.log("Login failed", error);
+      });
+  }, [userInfoData]);
 
   const headerData = [
     { name: "No" },
@@ -113,6 +137,7 @@ const User = () => {
                         className="btn btn-big btn-white"
                         type="button"
                         id="registBtn"
+                        onClick={() => navigate("/userInsert")}
                       >
                         회원등록
                       </button>
@@ -137,7 +162,47 @@ const User = () => {
                     ))}
                   </TableRow>
                 </TableHead>
-                <TableBody></TableBody>
+                <TableBody>
+                  {userInfoData.map((content: any, index: number) => (
+                    <TableRow>
+                      <TableCell>{index}</TableCell>
+                      <TableCell>{content.id}</TableCell>
+                      <TableCell>{content.phone}</TableCell>
+                      <TableCell>{content.address}</TableCell>
+                      <TableCell>{content.coin}</TableCell>
+                      <TableCell>{content.update}</TableCell>
+                      <TableCell>
+                        <Button
+                          sx={{ border: "1px solid #3695ff", borderRadius: 0 }}
+                        >
+                          코인변경
+                        </Button>
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          sx={{
+                            color: "white",
+                            background: "#484848",
+                            borderRadius: 0,
+                          }}
+                        >
+                          회원삭제{" "}
+                        </Button>
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          sx={{
+                            color: "white",
+                            background: "#b83535",
+                            borderRadius: 0,
+                          }}
+                        >
+                          거래차단{" "}
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
               </Table>
             </TableContainer>
           </section>

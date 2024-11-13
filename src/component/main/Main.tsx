@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import Header from "../../layouts/header/Header";
+import Header from "../../layouts/header/header";
 import Nav from "../../layouts/nav/nav";
 
 const Main = () => {

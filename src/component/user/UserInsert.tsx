@@ -1,7 +1,36 @@
-import Header from "../../layouts/header/Header";
+import { useState } from "react";
+import Header from "../../layouts/header/header";
 import Nav from "../../layouts/nav/nav";
+import api from "../../api/api";
+import { useNavigate } from "react-router-dom";
 
 const UserInsert = () => {
+  const [userId, setUserId] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userPhone, setUserPhone] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const navigate = useNavigate();
+
+  // 회원정보 api호출하기
+  const handleSaveController = () => {
+    api
+      .post("https://localhost:3000/api/userInsert", {
+        id: userId,
+        password: userPassword,
+        name: userName,
+        phone: userPhone,
+      })
+      .then((res) => {
+        console.log(res.data.testData);
+        const data = res.data.testData;
+        localStorage.setItem("userInfoData", JSON.stringify(data));
+        navigate("/users");
+      })
+      .catch((error) => {
+        console.log("Login failed", error);
+      });
+  };
+
   return (
     <>
       <div className="container">
@@ -29,7 +58,10 @@ const UserInsert = () => {
                           id="uId"
                           name="email"
                           type="email"
+                          placeholder="아이디를 입력해주세요"
                           // maxlength="50"
+                          value={userId}
+                          onChange={(e) => setUserId(e.target.value)}
                         />
                       </td>
                     </tr>
@@ -40,7 +72,10 @@ const UserInsert = () => {
                           id="uName"
                           name="name"
                           type="text"
+                          placeholder="이름을 입력해주세요"
                           // maxlength="25"
+                          value={userName}
+                          onChange={(e) => setUserName(e.target.value)}
                         />
                       </td>
                     </tr>
@@ -53,6 +88,9 @@ const UserInsert = () => {
                           // maxlength="11"
                           type="tel"
                           className="numOnly"
+                          placeholder="전화번호를 입력해주세요"
+                          value={userPhone}
+                          onChange={(e) => setUserPhone(e.target.value)}
                         />
                       </td>
                     </tr>
@@ -63,7 +101,10 @@ const UserInsert = () => {
                           id="passwd"
                           name="passwd"
                           type="password"
-                          value=""
+                          // value=""
+                          placeholder="비밀번호를 입력해주세요"
+                          value={userPassword}
+                          onChange={(e) => setUserPassword(e.target.value)}
                         />
                       </td>
                     </tr>
@@ -91,6 +132,7 @@ const UserInsert = () => {
                   className="btn btn-big btn-color-save"
                   type="button"
                   id="saveBtn"
+                  onClick={handleSaveController}
                 >
                   저장
                 </button>

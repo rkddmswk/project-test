@@ -3,7 +3,7 @@ import Login from "./component/login/Login";
 import Main from "./component/main/Main";
 import User from "./component/user/User";
 import UserInsert from "./component/user/UserInsert";
-import Header from "./layouts/header/Header";
+import Header from "./layouts/header/header";
 
 const App = () => {
   return (

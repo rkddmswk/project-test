@@ -9,61 +9,54 @@ import {
   Tabs,
   Toolbar,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { useState } from "react";
 import { Add, List, PersonAdd, ChangeHistory } from "@mui/icons-material";
-import { Link, Outlet } from "react-router-dom";
-import Nav from "../nav/nav";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import menuUrl from "../../utils/menu-url";
 
 const Header = () => {
   const [lights, setLights] = useState(0);
   const handleChange = (e: any, newValue: number) => {
     setLights(newValue);
   };
+  const location = useLocation();
+  const { pathname } = location;
 
   return (
-    <>
-      {/* 헤더 */}
-      <AppBar
-        position="static"
-        sx={{
-          width: "100%",
-          height: "60px",
-          boxShadow: "none",
-          // borderBottom: "1px solid #DFDFDF",
-          // margin: "0 auto",
-          padding: "15px",
-          boxSizing: "border-box",
-        }}
-      >
-        <Toolbar>
-          <img src="" />
-          <Typography sx={{ height: "100%", width: "200px", float: "left" }}>
-            SUMMIZ
-          </Typography>
-          <Tabs
-            value={lights}
-            onChange={handleChange}
-            textColor="inherit"
-            centered //탭을 가운데로 정렬하는 속성
-            sx={{
-              marginTop: "-23px",
-              float: "left",
-              "& .MuiTabs-indicator": {
-                backgroundColor: "white",
-              },
-            }}
-          >
-            <Tab label="홈" component={Link} to="/main"></Tab>
-            <Tab label="회원관리" component={Link} to="/users"></Tab>
-            <Tab label="코인관리" component={Link} to="/coin"></Tab>
-            <Tab label="공지사항" component={Link} to="/board"></Tab>
-            <Tab label="IP관리" component={Link} to="/ip"></Tab>
-            <Tab label="관리자관리" component={Link} to="/manage"></Tab>
-          </Tabs>
-        </Toolbar>
-      </AppBar>
-    </>
+    <section id="sectionHeader">
+      <div className="left clearfix">
+        <nav className="headerTopNav">
+          <ul>
+            {menuUrl.map((item) => (
+              <li>
+                <a
+                  href={item.url}
+                  className={pathname === item.url ? "active" : ""}
+                >
+                  {item.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+      <div className="right clearfix">
+        <div className="profile left">
+          <a>
+            <span>
+              <strong>관리자</strong> 님, 반갑습니다.
+            </span>
+          </a>
+        </div>
+        <div className="profile right">
+          <a href="./login.html">
+            <img src="./img/ic_logout.png" />
+          </a>
+        </div>
+      </div>
+    </section>
   );
 };
 

@@ -1,67 +1,54 @@
-import { Box, Button, Paper, Typography } from "@mui/material";
-import { Add, List, PersonAdd, ChangeHistory } from "@mui/icons-material";
+import { useLocation } from "react-router-dom";
+import navUrl from "../../utils/nav-url";
 
 const Nav = () => {
+  const location = useLocation();
+  const { pathname } = location;
+
   return (
     <>
-      <Box sx={{ display: "flex", float: "left" }}>
-        <Paper
-          // anchor="left"
-          // variant="permanent"
-          sx={{
-            width: 200,
-            height: "calc(100vh - 60px)",
-            background: "#1d2327",
-            color: "#ffffff",
-            "& .MuiDrawer-paper": {
-              width: 200,
-              height: "100vh",
-              padding: 5,
-              background: "black",
-            },
-          }}
-        >
-          <Typography
-            variant="h6"
-            sx={{
-              textAlign: "center",
-              height: "100px",
-              lineHeight: "100px",
-              borderBottom: "2px solid #111111",
-            }}
-          >
-            회원관리
-          </Typography>
-          <Button
-            fullWidth
-            sx={{ color: "white", height: "70px", textAlign: "left" }}
-            startIcon={<Add />}
-          >
-            등록요청
-          </Button>
-          <Button
-            fullWidth
-            sx={{ color: "white", height: "70px" }}
-            startIcon={<List />}
-          >
-            회원목록
-          </Button>
-          <Button
-            fullWidth
-            sx={{ color: "white", height: "70px" }}
-            startIcon={<PersonAdd />}
-          >
-            회원등록
-          </Button>
-          <Button
-            fullWidth
-            sx={{ color: "white", height: "70px" }}
-            startIcon={<ChangeHistory />}
-          >
-            거래내역 변경
-          </Button>
-        </Paper>
-      </Box>
+      {/* header start */}
+      <header id="header">
+        <h1 className="logo ir"></h1>
+        <nav className="headerNav">
+          <h2 className="sr-only">메뉴 리스트</h2>
+          <ul className="depth1">
+            <li>
+              {pathname === "/main" ? (
+                <button className="iconCompany active" type="button">
+                  홈
+                </button>
+              ) : (
+                <button className="iconCompany active" type="button">
+                  회원관리
+                </button>
+              )}
+              {pathname === "/users" &&
+                navUrl.map((item) => (
+                  <ul className="depth2" style={{ display: "block" }}>
+                    <li>
+                      <a
+                        href={item.url}
+                        className={pathname === item.url ? "active" : ""}
+                      >
+                        {item.name}
+                      </a>
+                    </li>
+                  </ul>
+                ))}
+              {pathname === "/userInsert" &&
+                navUrl.map((item) => (
+                  <ul className="depth2" style={{ display: "block" }}>
+                    <li>
+                      <a href={item.url}>{item.name}</a>
+                    </li>
+                  </ul>
+                ))}
+            </li>
+          </ul>
+        </nav>
+      </header>
+      {/* header end */}
     </>
   );
 };

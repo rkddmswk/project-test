@@ -16,6 +16,10 @@ import { Add, List, PersonAdd, ChangeHistory } from "@mui/icons-material";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import menuUrl from "../../utils/menu-url";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { logOut } from "../../redux/user";
+import { persistor } from "../../redux";
 
 const Header = () => {
   const [lights, setLights] = useState(0);
@@ -25,8 +29,21 @@ const Header = () => {
   const location = useLocation();
   const { pathname } = location;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const username = useSelector((state: any) => state.user.user.name);
+  const username = useSelector((state: any) => state.user?.user?.name || "");
+  console.log(username);
+
+  const handleLogoutController = async () => {
+    alert("로그아웃되었습니다.");
+
+    dispatch(logOut());
+    // persistor.pause(); // Redux Persist 상태 저장 멈추기
+    await persistor.flush(); // 남아 있는 데이터 비우기
+    await persistor.purge(); // Persisted storage 삭제
+
+    navigate("/");
+  };
 
   return (
     <section id="sectionHeader">
@@ -39,7 +56,7 @@ const Header = () => {
                   href={item.url}
                   className={pathname === item.url ? "active" : ""}
                 >
-                  {item.name}
+                  {item.topmenu}
                 </a>
               </li>
             ))}
@@ -54,9 +71,21 @@ const Header = () => {
             </span>
           </a>
         </div>
-        <div className="profile right" onClick={() => navigate("/")}>
+        <div
+          className="profile right"
+          style={{
+            width: "60px",
+            height: "60px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           {/* <a href="./login.html"> */}
-          <img src="./img/ic_logout.png" />
+          <LogoutIcon
+            sx={{ color: "white", cursor: "pointer" }}
+            onClick={handleLogoutController}
+          />
           {/* </a> */}
         </div>
       </div>

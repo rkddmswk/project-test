@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import navUrl from "../../utils/nav-url";
 import path from "path";
+import menuUrl from "../../utils/menu-url";
 
 const Nav = () => {
   const location = useLocation();
@@ -20,6 +21,13 @@ const Nav = () => {
           <h2 className="sr-only">메뉴 리스트</h2>
           <ul className="depth1">
             <li>
+              {/* {menuUrl
+                .filter((item) => item.url === "/main")
+                .map((item) => (
+                  <button className="iconCompany active" type="button">
+                    {item}
+                  </button>
+                ))} */}
               {pathname === "/main" ? (
                 <button className="iconCompany active" type="button">
                   홈

@@ -17,22 +17,22 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
 import { useLocation, useNavigate } from "react-router-dom";
-import Header from "../../layouts/header/Header";
+import Header from "../../layouts/header/header";
 import Nav from "../../layouts/nav/nav";
 import { useEffect, useState } from "react";
 import api from "../../api/api";
+import { userInfo } from "../../redux/user";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { stat } from "fs";
 
 const User = () => {
   const navigate = useNavigate();
   // const location = useLocation();
-  const [userInfoData, setUserInfoData] = useState([]);
+  // const [userInfoData, setUserInfoData] = useState([]);
 
-  // useEffect(() => {
-  //   const data = localStorage.getItem("userInfoData");
-  //   if (data) {
-  //     setUserInfoData(JSON.parse(data));
-  //   }
-  // }, [userInfoData]);
+  const userInfoData = useSelector((state: any) => state.user.user || "");
+  console.log(userInfoData);
 
   useEffect(() => {
     searchHandler();
@@ -55,7 +55,7 @@ const User = () => {
       .get("https://localhost:3000/api/userInfo")
       .then((res) => {
         console.log(res.data);
-        setUserInfoData(res.data);
+        // setUserInfoData(res.data);
       })
       .catch((error) => {
         console.log("Login failed", error);

@@ -1,8 +1,10 @@
 import { useState } from "react";
-import Header from "../../layouts/header/Header";
+import Header from "../../layouts/header/header";
 import Nav from "../../layouts/nav/nav";
 import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
+import { userInfo } from "../../redux/user";
+import { useDispatch } from "react-redux";
 
 const UserInsert = () => {
   const [userId, setUserId] = useState("");
@@ -10,6 +12,8 @@ const UserInsert = () => {
   const [userPhone, setUserPhone] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   // 회원정보 api호출하기
   const handleSaveController = () => {
@@ -22,8 +26,8 @@ const UserInsert = () => {
       })
       .then((res) => {
         console.log(res.data.testData);
-        const data = res.data.testData;
-        localStorage.setItem("userInfoData", JSON.stringify(data));
+        // 호출 성공 시 데이터 값을 Redux 상태에 저장
+        dispatch(userInfo(res.data.testData));
         navigate("/users");
       })
       .catch((error) => {

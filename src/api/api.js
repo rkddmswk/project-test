@@ -29,6 +29,7 @@ mock.onPost("/login").reply((config) => {
       { message: "Login successful", token: "fake-jwt-token", data: user },
     ];
   } else {
+    alert("해당하는 아이디와 비밀번호는 이미 존재합니다.");
     return [401, { message: "Invalid credentials" }];
   }
 });

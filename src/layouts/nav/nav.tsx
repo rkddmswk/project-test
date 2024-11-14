@@ -1,15 +1,21 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import navUrl from "../../utils/nav-url";
+import path from "path";
 
 const Nav = () => {
   const location = useLocation();
   const { pathname } = location;
+  const navigate = useNavigate();
 
   return (
     <>
       {/* header start */}
       <header id="header">
-        <h1 className="logo ir"></h1>
+        <h1
+          className="logo ir"
+          onClick={() => navigate("/main")}
+          style={{ cursor: "pointer" }}
+        ></h1>
         <nav className="headerNav">
           <h2 className="sr-only">메뉴 리스트</h2>
           <ul className="depth1">
@@ -23,27 +29,20 @@ const Nav = () => {
                   회원관리
                 </button>
               )}
-              {pathname === "/users" &&
-                navUrl.map((item) => (
-                  <ul className="depth2" style={{ display: "block" }}>
-                    <li>
-                      <a
-                        href={item.url}
-                        className={pathname === item.url ? "active" : ""}
-                      >
-                        {item.name}
-                      </a>
-                    </li>
-                  </ul>
-                ))}
-              {pathname === "/userInsert" &&
-                navUrl.map((item) => (
-                  <ul className="depth2" style={{ display: "block" }}>
-                    <li>
-                      <a href={item.url}>{item.name}</a>
-                    </li>
-                  </ul>
-                ))}
+              {pathname !== "/main"
+                ? navUrl.map((item) => (
+                    <ul className="depth2" style={{ display: "block" }}>
+                      <li>
+                        <a
+                          href={item.url}
+                          className={pathname === item.url ? "active" : ""}
+                        >
+                          {item.name}
+                        </a>
+                      </li>
+                    </ul>
+                  ))
+                : null}
             </li>
           </ul>
         </nav>

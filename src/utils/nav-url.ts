@@ -4,7 +4,7 @@ const navUrl = [
     name: "등록요청",
   },
   {
-    url: "/userList",
+    url: "/users",
     name: "회원목록",
   },
   {

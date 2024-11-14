@@ -17,7 +17,7 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
 import { useLocation, useNavigate } from "react-router-dom";
-import Header from "../../layouts/header/header";
+import Header from "../../layouts/header/Header";
 import Nav from "../../layouts/nav/nav";
 import { useEffect, useState } from "react";
 import api from "../../api/api";
@@ -35,16 +35,8 @@ const User = () => {
   // }, [userInfoData]);
 
   useEffect(() => {
-    api
-      .get("https://localhost:3000/api/userInfo")
-      .then((res) => {
-        console.log(res.data);
-        setUserInfoData(res.data);
-      })
-      .catch((error) => {
-        console.log("Login failed", error);
-      });
-  }, [userInfoData]);
+    searchHandler();
+  }, []);
 
   const headerData = [
     { name: "No" },
@@ -58,6 +50,18 @@ const User = () => {
     { name: "거래차단" },
   ];
 
+  const searchHandler = () => {
+    api
+      .get("https://localhost:3000/api/userInfo")
+      .then((res) => {
+        console.log(res.data);
+        setUserInfoData(res.data);
+      })
+      .catch((error) => {
+        console.log("Login failed", error);
+      });
+  };
+
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.white,
@@ -67,6 +71,27 @@ const User = () => {
       fontSize: 14,
     },
   }));
+
+  const handleDetailController = (rowKey: number) => {
+    console.log(typeof rowKey);
+    navigate(`/users/usersDetail/${rowKey}`);
+  };
+
+  const handleDeleteController = (event: any, key: number) => {
+    alert("정말로 삭제하시겠습니까?");
+    event.stopPropagation(); // 이벤트 중지
+    api
+      .post("https://localhost:3000/api/userInfo/delete", {
+        key: key,
+      })
+      .then((res) => {
+        console.log(res.data);
+        searchHandler();
+      })
+      .catch((error) => {
+        console.log("Login failed", error);
+      });
+  };
 
   return (
     <div className="container">
@@ -164,7 +189,11 @@ const User = () => {
                 </TableHead>
                 <TableBody>
                   {userInfoData.map((content: any, index: number) => (
-                    <TableRow>
+                    <TableRow
+                      sx={{ cursor: "pointer" }}
+                      hover
+                      onClick={() => handleDetailController(content.key)}
+                    >
                       <TableCell>{index}</TableCell>
                       <TableCell>{content.id}</TableCell>
                       <TableCell>{content.phone}</TableCell>
@@ -185,6 +214,9 @@ const User = () => {
                             background: "#484848",
                             borderRadius: 0,
                           }}
+                          onClick={(event) =>
+                            handleDeleteController(event, content.key)
+                          }
                         >
                           회원삭제{" "}
                         </Button>

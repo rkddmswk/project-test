@@ -24,7 +24,10 @@ mock.onPost("/login").reply((config) => {
     (userData) => userData.id === id && userData.passWord === password
   );
   if (user) {
-    return [200, { message: "Login successful", token: "fake-jwt-token" }];
+    return [
+      200,
+      { message: "Login successful", token: "fake-jwt-token", data: user },
+    ];
   } else {
     return [401, { message: "Invalid credentials" }];
   }
@@ -34,15 +37,10 @@ mock.onPost("/login").reply((config) => {
 mock.onPost("/userInsert").reply((config) => {
   console.log(config);
   const { id, name, phone, password } = JSON.parse(config.data);
-  // console.log(id);
-  // console.log(password);
-  // console.log(name);
-  // console.log(phone);
   const userInfo = testData.filter(
     (info) => info.id === id || info.phone === phone
   );
   if (userInfo.length > 0) {
-    console.log("ddd");
     alert("ID 또는 전화번호가 이미 사용 중입니다. 다시 입력해주세요");
     return [400, { message: "ID 또는 전화번호가 이미 사용 중입니다." }];
   } else {
@@ -61,17 +59,42 @@ mock.onPost("/userInsert").reply((config) => {
   // });
 });
 
+// 회원목록
 mock.onGet("/userInfo").reply(200, testData);
 
-export default api;
+// 회원목록 상세정보
+mock.onPost("/userInfo/userDetail").reply((config) => {
+  console.log(config);
+  const { key } = JSON.parse(config.data);
+  const numberKey = parseInt(key);
+  console.log(typeof numberKey);
+  const userInfoDetail = testData.find(
+    (infoDetail) => infoDetail.key === numberKey
+  );
+  if (userInfoDetail) {
+    return [200, { message: "UserInfoDetail successful", userInfoDetail }];
+  } else {
+    console.log("들어옴?");
+    return [400];
+  }
+});
 
-// case1. 파라미터가 없는 경우
-// mock.onGet("/").reply(200, testData);
-// mock.onGet("/").reply(404, "error:::");
-// mock.onGet("/").reply((config) => {
-//   return [200, { message: `성공::: ${config.params.post}` }];
-// });
-// mock.onPost("http://login").reply((config) => {
-//   const data = JSON.parse(config.data);
-//   return [200, { message: `성공::: ${data.data.post}` }];
-// });
+// 회원삭제
+mock.onPost("/userInfo/delete").reply((config) => {
+  const { key } = JSON.parse(config.data);
+  console.log(key);
+  const numberKey = parseInt(key);
+  const userIndex = testData.findIndex((user) => user.key === numberKey);
+  console.log(userIndex);
+
+  if (userIndex !== -1) {
+    testData.splice(userIndex, 1);
+    console.log("사용자 삭제 성공:", numberKey);
+    return [200, { message: "User deleted successfully", testData }];
+  } else {
+    console.log("사용자를 찾을 수 없음:", numberKey);
+    return [404, { message: "User not found" }];
+  }
+});
+
+export default api;

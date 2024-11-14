@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Header from "../../layouts/header/header";
+import Header from "../../layouts/header/Header";
 import Nav from "../../layouts/nav/nav";
 import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
@@ -75,7 +75,12 @@ const UserInsert = () => {
                           placeholder="이름을 입력해주세요"
                           // maxlength="25"
                           value={userName}
-                          onChange={(e) => setUserName(e.target.value)}
+                          maxLength={5}
+                          onChange={(e) =>
+                            setUserName(
+                              e.target.value.replace(/[^ㄱ-ㅎ가-힣ㆍ ᆢ]/gi, "")
+                            )
+                          }
                         />
                       </td>
                     </tr>
@@ -90,7 +95,18 @@ const UserInsert = () => {
                           className="numOnly"
                           placeholder="전화번호를 입력해주세요"
                           value={userPhone}
-                          onChange={(e) => setUserPhone(e.target.value)}
+                          maxLength={13}
+                          onChange={(e) =>
+                            setUserPhone(
+                              e.target.value
+                                .replace(/[^0-9]/g, "")
+                                .replace(
+                                  /^(\d{0,3})(\d{0,4})(\d{0,4})$/g,
+                                  "$1-$2-$3"
+                                )
+                                .replace(/(\-{1,2})$/g, "")
+                            )
+                          }
                         />
                       </td>
                     </tr>
@@ -104,6 +120,7 @@ const UserInsert = () => {
                           // value=""
                           placeholder="비밀번호를 입력해주세요"
                           value={userPassword}
+                          maxLength={15}
                           onChange={(e) => setUserPassword(e.target.value)}
                         />
                       </td>

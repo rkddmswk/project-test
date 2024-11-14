@@ -1,9 +1,9 @@
 import { Box, Typography, Button, ButtonGroup } from "@mui/material";
 import api from "../../api/api";
-
-import { error } from "console";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/user";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,21 +12,25 @@ const Login = () => {
   const inputIdRef = useRef<HTMLInputElement>(null);
   const inputPwRef = useRef<HTMLInputElement>(null);
 
-  // const handleLoginController = async () => {
-  //   console.log("handleLoginController:::");
-  //   try {
-  //     const response = await api.post("https://localhost:3000/api/login", {
-  //       id: userId,
-  //       password: userPw,
-  //     });
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.error("Login failed:");
-  //   }
-  // };
+  const [userInfo, setUserInfo] = useState();
+
+  const dispatch = useDispatch();
 
   // 로그인 api호출하기
   const handleLoginController = () => {
+    if (userId === "") {
+      alert("아이디를 입력해주세요");
+      if (inputIdRef.current) {
+        inputIdRef.current.focus();
+      }
+      return;
+    } else if (userPw === "") {
+      alert("비밀번호를 입력해주세요");
+      if (inputPwRef.current) {
+        inputPwRef.current.focus();
+      }
+      return;
+    }
     api
       .post("https://localhost:3000/api/login", {
         id: userId,
@@ -37,6 +41,8 @@ const Login = () => {
         if (res.data.message) {
           // 로그인 성공시
           alert("환영합니다.");
+          // 로그인 성공 시 데이터 값을 Redux 상태에 저장
+          dispatch(setUser(res.data.data));
           navigate("/main");
         }
       })
@@ -66,6 +72,7 @@ const Login = () => {
                 name="id"
                 id="id"
                 type="text"
+                maxLength={15}
                 placeholder="아이디를 입력해 주세요."
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
@@ -78,7 +85,7 @@ const Login = () => {
                 name="passwd"
                 id="passwd"
                 type="password"
-                // onKeyDown="javascript:if (event.keyCode == 13) { actionLogin('dashboard.html'); }"
+                maxLength={15}
                 placeholder="패스워드를 입력해 주세요."
                 value={userPw}
                 onChange={(e) => setUserPw(e.target.value)}
@@ -89,7 +96,6 @@ const Login = () => {
             <ButtonGroup className="btnArea">
               <Button
                 className="btn btn-login btn-skyblue width-100p"
-                // onClick="actionLogin('dashboard.html')"
                 onClick={handleLoginController}
               >
                 로그인

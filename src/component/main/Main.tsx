@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
-import Header from "../../layouts/header/header";
+import { useDispatch } from "react-redux";
 import Nav from "../../layouts/nav/nav";
+import Header from "../../layouts/header/Header";
 
 const Main = () => {
   return (

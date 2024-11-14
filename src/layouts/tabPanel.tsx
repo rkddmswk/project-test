@@ -1,7 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
-const TabPanel = (props: any) => {
+interface TabPanelProps {
+  children?: React.ReactNode;
+  dir?: string;
+  index: number;
+  value: number;
+}
+
+const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
 
   return (

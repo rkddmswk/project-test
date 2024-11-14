@@ -13,8 +13,9 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { Add, List, PersonAdd, ChangeHistory } from "@mui/icons-material";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import menuUrl from "../../utils/menu-url";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [lights, setLights] = useState(0);
@@ -23,6 +24,9 @@ const Header = () => {
   };
   const location = useLocation();
   const { pathname } = location;
+  const navigate = useNavigate();
+
+  const username = useSelector((state: any) => state.user.user.name);
 
   return (
     <section id="sectionHeader">
@@ -46,14 +50,14 @@ const Header = () => {
         <div className="profile left">
           <a>
             <span>
-              <strong>관리자</strong> 님, 반갑습니다.
+              <strong>{username}</strong> 님, 반갑습니다.
             </span>
           </a>
         </div>
-        <div className="profile right">
-          <a href="./login.html">
-            <img src="./img/ic_logout.png" />
-          </a>
+        <div className="profile right" onClick={() => navigate("/")}>
+          {/* <a href="./login.html"> */}
+          <img src="./img/ic_logout.png" />
+          {/* </a> */}
         </div>
       </div>
     </section>

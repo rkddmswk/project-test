@@ -6,20 +6,21 @@ import UserInsert from "./component/user/UserInsert";
 import UserDetail from "./component/user/UserDetail";
 import { RecoilRoot } from "recoil";
 import { Provider } from "react-redux";
-import store from "./redux";
+
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
+import { storeLocal, storeSession } from "./redux";
 const App = () => {
   // Redux store 생성\
-  const persistor = persistStore(store); // redux-persist 설정
+  const persistorLocal = persistStore(storeLocal); // 로컬 스토리지를 위한 persistor
+  const persistorSession = persistStore(storeSession); // 세션 스토리지를 위한 persistor
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <RecoilRoot>
+    <RecoilRoot>
+      <Provider store={storeLocal}>
+        <PersistGate loading={null} persistor={persistorLocal}>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Login />}></Route>
               <Route path="/main" element={<Main />}></Route>
               <Route path="/users" element={<User />}></Route>
               <Route
@@ -29,9 +30,19 @@ const App = () => {
               <Route path="/userInsert" element={<UserInsert />}></Route>
             </Routes>
           </BrowserRouter>
-        </RecoilRoot>
-      </PersistGate>
-    </Provider>
+        </PersistGate>
+      </Provider>
+
+      <Provider store={storeSession}>
+        <PersistGate loading={null} persistor={persistorSession}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Login />}></Route>
+            </Routes>
+          </BrowserRouter>
+        </PersistGate>
+      </Provider>
+    </RecoilRoot>
   );
 };
 

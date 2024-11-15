@@ -1,73 +1,59 @@
 const menuUrl = [
   {
-    topmenu: "홈",
+    menuId: 1,
+    menuNm: "홈",
     url: "/main",
-    depth: 1,
+    child: [],
+    light: "on",
   },
 
   {
-    topmenu: "회원관리",
+    menuId: 2,
+    menuNm: "회원관리",
     url: "/users",
-    depth: 2,
     child: [
       {
-        submenu: "등록요청",
+        menuId: 10,
+        menuNm: "등록요청",
         url: "/userRegist",
       },
       {
-        submenu: "회원목록",
+        menuId: 11,
+        menuNm: "회원목록",
         url: "/users",
       },
       {
-        submenu: "회원등록",
+        menuId: 12,
+        menuNm: "회원등록",
         url: "/userInsert",
       },
       {
-        submenu: "거래내역 변경",
+        menuId: 13,
+        menuNm: "거래내역 변경",
         url: "/userTrade",
       },
     ],
   },
   {
-    topmenu: "코인관리",
+    menuId: 3,
+    menuNm: "코인관리",
     url: "/coin",
   },
   {
-    topmenu: "공지사항",
+    menuId: 4,
+    menuNm: "공지사항",
     url: "/board",
   },
   {
-    topmenu: "IP관리",
+    menuId: 5,
+    menuNm: "IP관리",
     url: "/ip",
   },
   {
-    topmenu: "관리자관리",
+    menuId: 6,
+    menuNm: "관리자관리",
     url: "/management",
   },
-  // {
-  //   url: "/main",
-  //   name: "홈",
-  // },
-  // {
-  //   url: "/users",
-  //   name: "회원관리",
-  // },
-  // {
-  //   url: "/coin",
-  //   name: "코인관리",
-  // },
-  // {
-  //   url: "/board",
-  //   name: "공지사항",
-  // },
-  // {
-  //   url: "/ip",
-  //   name: "IP관리",
-  // },
-  // {
-  //   url: "/management",
-  //   name: "관리자관리",
-  // },
 ];
 
-export default menuUrl;
+export { menuUrl };

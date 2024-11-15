@@ -11,28 +11,30 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
-import { Add, List, PersonAdd, ChangeHistory } from "@mui/icons-material";
+import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import menuUrl from "../../utils/menu-url";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { logOut } from "../../redux/user";
+import { logOut, menuLight, menuNav } from "../../redux/user";
 import { persistor } from "../../redux";
+import { menuUrl } from "../../utils/menu-url";
 
 const Header = () => {
-  const [lights, setLights] = useState(0);
-  const handleChange = (e: any, newValue: number) => {
-    setLights(newValue);
-  };
-  const location = useLocation();
-  const { pathname } = location;
+  const [selectedMenu, setSelectedMenu] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const username = useSelector((state: any) => state.user?.user?.name || "");
-  console.log(username);
+  // const menuname = useSelector((state: any) => state.user?.user?.name || "");
+  dispatch(menuNav(menuUrl));
+  const menuName = useSelector((state: any) => state.user.user);
+  const lightMenu = useSelector((state: any) => state.user.selectedMenu);
+
+  const handleMenuClick = (menuId: any) => {
+    console.log(menuId);
+    setSelectedMenu(menuId);
+    dispatch(menuLight(menuId));
+  };
 
   const handleLogoutController = async () => {
     alert("로그아웃되었습니다.");
@@ -50,13 +52,18 @@ const Header = () => {
       <div className="left clearfix">
         <nav className="headerTopNav">
           <ul>
-            {menuUrl.map((item) => (
+            {menuName.map((item: any) => (
               <li>
                 <a
                   href={item.url}
-                  className={pathname === item.url ? "active" : ""}
+                  className={lightMenu === item.menuId ? "active" : ""}
+                  // className={lightMenu.includes(item.menuId) ? "active" : ""}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleMenuClick(item.menuId);
+                  }}
                 >
-                  {item.topmenu}
+                  {item.menuNm}
                 </a>
               </li>
             ))}
@@ -67,7 +74,7 @@ const Header = () => {
         <div className="profile left">
           <a>
             <span>
-              <strong>{username}</strong> 님, 반갑습니다.
+              <strong></strong> 님, 반갑습니다.
             </span>
           </a>
         </div>

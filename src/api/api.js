@@ -18,8 +18,8 @@ mock.onPost("/login").reply((config) => {
   console.log(config);
   // put요청중 data만 추출한다.
   const { id, password } = JSON.parse(config.data);
-  console.log(id);
-  console.log(password);
+  // console.log(id);
+  // console.log(password);
   const user = testData.find(
     (userData) => userData.id === id && userData.passWord === password
   );
@@ -30,7 +30,11 @@ mock.onPost("/login").reply((config) => {
     ];
   } else {
     alert("해당하는 아이디와 비밀번호는 이미 존재합니다.");
-    return [401, { message: "Invalid credentials" }];
+    return [
+      401,
+      { message: "Invalid credentials" },
+      alert("해당하는 아이디와 비밀번호는 이미 존재합니다."),
+    ];
   }
 });
 

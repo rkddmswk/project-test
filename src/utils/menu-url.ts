@@ -4,7 +4,6 @@ const menuUrl = [
     menuNm: "홈",
     url: "/main",
     child: [],
-    light: "on",
   },
 
   {

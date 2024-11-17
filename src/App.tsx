@@ -9,35 +9,51 @@ import { Provider } from "react-redux";
 
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
-import { storeLocal, storeSession } from "./redux";
+import { store, persistor } from "./redux";
+import Layout from "./layouts";
 const App = () => {
-  // Redux store 생성\
-  const persistorLocal = persistStore(storeLocal); // 로컬 스토리지를 위한 persistor
-  const persistorSession = persistStore(storeSession); // 세션 스토리지를 위한 persistor
+  // Redux store 생성
+  const persistorLocal = persistStore(store); // 로컬 스토리지를 위한 persistor
 
   return (
     <RecoilRoot>
-      <Provider store={storeLocal}>
-        <PersistGate loading={null} persistor={persistorLocal}>
+      <Provider store={store}>
+        <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
           <BrowserRouter>
             <Routes>
-              <Route path="/main" element={<Main />}></Route>
-              <Route path="/users" element={<User />}></Route>
+              <Route path="/" element={<Login />} />
+              <Route
+                path="/main"
+                element={
+                  <Layout>
+                    <Main />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/users"
+                element={
+                  <Layout>
+                    <User />
+                  </Layout>
+                }
+              />
               <Route
                 path="/users/usersDetail/:id"
-                element={<UserDetail />}
-              ></Route>
-              <Route path="/userInsert" element={<UserInsert />}></Route>
-            </Routes>
-          </BrowserRouter>
-        </PersistGate>
-      </Provider>
-
-      <Provider store={storeSession}>
-        <PersistGate loading={null} persistor={persistorSession}>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Login />}></Route>
+                element={
+                  <Layout>
+                    <UserDetail />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/userInsert"
+                element={
+                  <Layout>
+                    <UserInsert />
+                  </Layout>
+                }
+              />
             </Routes>
           </BrowserRouter>
         </PersistGate>

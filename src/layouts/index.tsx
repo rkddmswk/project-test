@@ -1,22 +1,19 @@
-const Layout = () => {
+import { useEffect } from "react";
+import Header from "./header/header";
+import Nav from "./nav/nav";
+import { useSelector } from "react-redux";
+
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
-      {/* header start */}
-      <header id="header">
-        <h1 className="logo ir"></h1>
-        <nav className="headerNav">
-          <h2 className="sr-only">메뉴 리스트</h2>
-          <ul className="depth1">
-            <li>
-              <button className="iconCompany active" type="button">
-                홈
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </header>
-      {/* header end */}
-    </>
+    <div className="container">
+      {/* 사이드바 */}
+      <Nav />
+      <div id="contentsArea">
+        {/* 헤더 */}
+        <Header />
+        {children}
+      </div>
+    </div>
   );
 };
 

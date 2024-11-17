@@ -1,10 +1,10 @@
 import { Box, Typography, Button, ButtonGroup } from "@mui/material";
-// import api from "../../api/api";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+
 import { setUser } from "../../redux/user";
-import axios from "../../api/axios";
+import api from "../../api/api";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -30,21 +30,21 @@ const Login = () => {
       }
       return;
     }
-    axios
+    api
       .post("https://localhost:3000/api/login", {
         id: userId,
         password: userPw,
       })
       .then((res) => {
-        console.log(res.data);
-        console.log(res.data.user);
-        if (res.data.message) {
+        // console.log(res.data.data);
+        const userData = res.data.data;
+        if (res.data) {
           // 로그인 성공시
           alert("환영합니다.");
-          // 로그인 성공 시 sessionStorage에 저장
-          sessionStorage.setItem("user", JSON.stringify(res.data.user));
-          // 로그인 성공 시 데이터 값을 Redux 상태에 저장
-          dispatch(setUser(res.data.user));
+          // Redux에 사용자 정보 저장
+          dispatch(setUser(userData));
+          // 세션 스토리지에 사용자 정보 저장
+          sessionStorage.setItem("user", JSON.stringify(userData));
           navigate("/main");
         }
       })

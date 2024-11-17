@@ -1,12 +1,51 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import navUrl from "../../utils/nav-url";
-import path from "path";
-// import menuUrl from "../../utils/menu-url";
+import { menuUrl } from "../../utils/menu-url";
+import menu, { menuNav } from "../../redux/menu";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const Nav = () => {
-  const location = useLocation();
-  const { pathname } = location;
+  // const location = useLocation();
+  // const { pathname } = location;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  dispatch(menuNav(menuUrl));
+  const menuName = useSelector((state: any) => state.menu.user);
+  const lightMenu = useSelector((state: any) => state.menu.selectedMenu);
+
+  const filterMenu = menuName
+    .filter((item: any) => {
+      if (lightMenu === 1 && item.menuId === 2) return false; // 홈일 때 회원관리 숨김
+      if (lightMenu === 2 && item.menuId === 1) return false; // 회원관리일 때 홈 숨김
+      return true;
+    })
+    .map((item: any) => {
+      const isActive = lightMenu === item.menuId;
+      return (
+        <li key={item.menuId}>
+          <button
+            className={isActive ? "active" : ""}
+            onClick={() => navigate(item.url)}
+          >
+            {item.menuNm}
+          </button>
+          {isActive && item.child && item.child.length > 0 && (
+            <ul className="depth2">
+              {item.child.map((item: any) => (
+                <li
+                  key={item.menuId}
+                  className={`iconCompany ${
+                    lightMenu === item.menuId ? "active" : ""
+                  }`}
+                >
+                  <a href={item.url}>{item.menuNm}</a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      );
+    });
 
   return (
     <>
@@ -17,17 +56,21 @@ const Nav = () => {
           onClick={() => navigate("/main")}
           style={{ cursor: "pointer" }}
         ></h1>
-        <nav className="headerNav">
+        {/* <nav className="headerNav">
           <h2 className="sr-only">메뉴 리스트</h2>
           <ul className="depth1">
+            {filterMenu}
+            {filterMenu.map((item: any) => (
+              <li key={item.menuId}>
+                <button
+                  className={lightMenu === item.menuId ? "active" : ""}
+                  onClick={() => navigate(item.url)}
+                >
+                  {item.menuNm}
+                </button>
+              </li>
+            ))}
             <li>
-              {/* {menuUrl
-                .filter((item) => item.url === "/main")
-                .map((item) => (
-                  <button className="iconCompany active" type="button">
-                    {item}
-                  </button>
-                ))} */}
               {pathname === "/main" ? (
                 <button className="iconCompany active" type="button">
                   홈
@@ -53,7 +96,7 @@ const Nav = () => {
                 : null}
             </li>
           </ul>
-        </nav>
+        </nav> */}
       </header>
       {/* header end */}
     </>

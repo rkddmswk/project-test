@@ -11,6 +11,7 @@ const initialState = {
   //   lastDate: "",
   // },
   selectedMenu: "",
+  selectedMenuNav: "",
   menuItems: [],
   userList: [], // 회원 목록
 };
@@ -20,14 +21,16 @@ const initialState = {
 // const USER_INFO = "USER_INFO";
 // const LOG_OUT = "LOG_OUT";
 const MENU_NAV = "MENU_NAV";
-const MENU_LIGHT = "MENU_LIGHT";
+const MENU_LIGHT = "MENU_LIGHT"; // 선택한 헤더메뉴
 const USER_LIST = "USER_LIST"; // 회원목록
 const USER_DELETE = "USER_DELETE"; // 삭제 액션 타입
+const MENU_NAV_LIGHT = "MENU_NAV_LIGHT"; // 선택한 네비바메뉴
 
 export const menuNav = (data) => ({ type: MENU_NAV, data }); // 메뉴
-export const menuLight = (menuId) => ({ type: MENU_LIGHT, menuId }); // 하이라이트
+export const menuLight = (menuId) => ({ type: MENU_LIGHT, menuId }); // 헤더 하이라이트
 export const userList = (data) => ({ type: USER_LIST, data }); // 회원목록
 export const deleteUser = (key) => ({ type: USER_DELETE, key });
+export const menuNavLight = (menuId) => ({ type: MENU_NAV_LIGHT, menuId }); //네비 하이라이트
 
 function menu(state = initialState, action) {
   switch (action.type) {
@@ -41,6 +44,12 @@ function menu(state = initialState, action) {
       return {
         ...state,
         selectedMenu: action.menuId, // 선택된 메뉴 업데이트
+      };
+    case MENU_NAV_LIGHT:
+      console.log("menuNavLight action.data:", action.data);
+      return {
+        ...state,
+        selectedMenuNav: action.menuId,
       };
     case USER_LIST:
       console.log("USER_LIST action.data:", action.data);

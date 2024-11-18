@@ -1,0 +1,49 @@
+/* pagination.css */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  position: fixed; /* 화면 하단에 고정 */
+  bottom: 0px; /* 화면 하단에 위치 */
+  left: 0; /* 화면 왼쪽에 고정 */
+  width: 100%; /* 화면 전체 너비 */
+  background-color: white; /* 배경색 */
+  padding: 10px 0; /* 위아래 패딩 */
+  z-index: 1000; /* 다른 콘텐츠 위에 오도록 설정 */
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pagination li {
+  margin: 4px; /* Adjust this for spacing between page buttons */
+}
+
+.pagination a {
+  padding: 8px 16px; /* Adjust padding as needed */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #3695ff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.pagination a:hover {
+  background-color: #f0f0f0;
+}
+
+.pagination .active a {
+  background-color: #3695ff;
+  color: white;
+  border-color: #3695ff;
+}
+
+.pagination .disabled a {
+  cursor: not-allowed;
+  background-color: #f1f1f1;
+  color: #ccc;
+  border-color: #ccc;
+}

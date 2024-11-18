@@ -19,17 +19,40 @@ import api from "../../api/api";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { deleteUser, userList } from "../../redux/menu";
+import Pagination from "react-js-pagination";
+import "../../assets/css/pagination.css";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import dayjs from "dayjs";
 
 const User = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userListData = useSelector((state: any) => state.menu.userList);
 
-  // 페이징 관련
-  const [page, setPage] = useState(1); // 현재 페이지 번호
-  const [userList, setUserList] = useState([]); // 사용자목록
-  const [totalPages, setTotalPages] = useState(0); // total 페이지
-  const [limit] = useState(10); // 페이지당 아이템 수
+  // 로컬 스토리지에서 userList를 가져온다.
+  // const storedData = localStorage.getItem("userList");
+  // const userList = storedData ? JSON.parse(storedData) : [];
+  const [currentList, setCurrentList] = useState(userListData); // slice된 리스트
+  const [page, setPage] = useState(1); // 현재페이지 번호
+  const itemPerPate = 10; // 페이지당 아이템 개수
+  const itemsPerPage = 6; // 페이지 당 게시글 개수
+
+  // 페이지 이동
+  const changePageHandler = (page: number) => {
+    setPage(page);
+  };
+
+  // userList slice할 index 범위
+  const indexOfLastItem = page * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  // 페이지가 바뀌거나 필터 변경으로 리스트 변경 시, currentList 다시 정의
+  useEffect(() => {
+    setCurrentList(userListData.slice(indexOfFirstItem, indexOfLastItem));
+  }, [page, userListData]);
 
   // 초기화
   // useEffect(() => {
@@ -75,15 +98,13 @@ const User = () => {
   // 최초실행
   useEffect(() => {
     searchHandler();
-  }, [page]);
+  }, []);
 
   const searchHandler = () => {
     api
-      .get(`https://localhost:3000/api/userInfo?page=${page}&limit=${limit}`)
+      .get("https://localhost:3000/api/userInfo")
       .then((res) => {
         console.log(res.data);
-        setUserList(res.data.userList);
-        setTotalPages(Math.ceil(res.data.totalCount / limit));
         // dispatch(userList(res.data));
       })
       .catch((error) => {
@@ -130,18 +151,6 @@ const User = () => {
     // });
   };
 
-  // 페이지 변경 핸들러
-  const handlePageChange = (newPage: number) => {
-    if (newPage < 1 || newPage > totalPages) return; // 페이지 범위 체크
-    setPage(newPage); // 페이지 변경
-  };
-
-  // 페이지 번호 배열 생성
-  const pageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
-
   return (
     <main>
       <section className="sectionBlock noBorder">
@@ -158,23 +167,72 @@ const User = () => {
               <tr>
                 <td className="label">기간</td>
                 <td>
-                  <input
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={["DesktopDatePicker"]}>
+                      <DemoItem>
+                        <DesktopDatePicker
+                          defaultValue={dayjs("2022-04-17")}
+                          sx={{
+                            width: 200,
+                            height: 30,
+                            ".MuiInputBase-root": {
+                              width: 200,
+                              height: 30,
+                              // padding: "2px 4px", // Adjust internal padding
+                              fontSize: "12px", // Adjust font size
+                              backgroundColor: "#f0f0f0", // 배경색
+                            },
+                            ".MuiInputBase-input": {
+                              // 스핀 버튼 제거
+                              "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button":
+                                {
+                                  WebkitAppearance: "none",
+                                  margin: 0,
+                                },
+                              MozAppearance: "textfield", // Firefox 대응
+                              inputMode: "text", // 숫자 모드 제거
+                            },
+                          }}
+                        />
+                      </DemoItem>
+                    </DemoContainer>
+                  </LocalizationProvider>
+                  {/* <input
                     id="sdate"
                     name="sdate"
                     type="text"
                     // value="20180111"
                     // readonly="readonly"
                     className="date"
-                  />
+                  /> */}
                   ~
-                  <input
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={["DesktopDatePicker"]}>
+                      <DemoItem>
+                        <DesktopDatePicker
+                          defaultValue={dayjs("2022-04-17")}
+                          sx={{
+                            width: 150,
+                            height: 30,
+                            ".MuiInputBase-root": {
+                              height: 30,
+                              padding: "2px 4px", // Adjust internal padding
+                              fontSize: "12px", // Adjust font size
+                              backgroundColor: "#f0f0f0", // 배경색
+                            },
+                          }}
+                        />
+                      </DemoItem>
+                    </DemoContainer>
+                  </LocalizationProvider>
+                  {/* <input
                     id="edate"
                     name="edate"
                     type="text"
                     // value="20180112"
                     // readonly="readonly"
                     className="date"
-                  />
+                  /> */}
                 </td>
               </tr>
               <tr>
@@ -233,15 +291,17 @@ const User = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {Array.isArray(userListData) && userListData.length > 0
-                ? userListData.map((content: any, index: number) => (
+              {Array.isArray(currentList) && currentList.length > 0
+                ? currentList.map((content: any, index: number) => (
                     <TableRow
                       key={content.key}
                       sx={{ cursor: "pointer" }}
                       hover
                       onClick={() => handleDetailController(content.key)}
                     >
-                      <TableCell>{index}</TableCell>
+                      <TableCell>
+                        {(page - 1) * itemsPerPage + index + 1}
+                      </TableCell>
                       <TableCell>{content.id}</TableCell>
                       <TableCell>{content.phone}</TableCell>
                       <TableCell>{content.address}</TableCell>
@@ -286,41 +346,15 @@ const User = () => {
           </Table>
         </TableContainer>
       </section>
-
-      {/* 페이지 네비게이션 */}
-      {/* <section>
-        <Box display="flex" justifyContent="center" mt={2}>
-    
-          <Button
-            onClick={() => handlePageChange(page - 1)}
-            disabled={page === 1}
-          >
-            이전
-          </Button>
-
-      
-          <Box mx={2}>
-            {pageNumbers.map((pageNum) => (
-              <Button
-                key={pageNum}
-                onClick={() => handlePageChange(pageNum)}
-                variant={pageNum === page ? "contained" : "outlined"}
-                sx={{ margin: "0 5px" }}
-              >
-                {pageNum}
-              </Button>
-            ))}
-          </Box>
-
-        
-          <Button
-            onClick={() => handlePageChange(page + 1)}
-            disabled={page === totalPages}
-          >
-            다음
-          </Button>
-        </Box>
-      </section> */}
+      <Pagination
+        activePage={page} // 현재 페이지
+        itemsCountPerPage={itemsPerPage} // 한 페이지 당 보여줄 아이템 갯수
+        totalItemsCount={userListData.length} // 총 아이템 갯수
+        pageRangeDisplayed={5} // paginator에 나타낼 페이지 범위
+        prevPageText={"<"} // "이전"을 나타낼 텍스트
+        nextPageText={">"} // "다음"을 나타낼 텍스트
+        onChange={changePageHandler} // 페이지 변경을 핸들링하는 함수
+      />
     </main>
   );
 };

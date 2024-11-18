@@ -1,6 +1,7 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { testData } from "../testData";
+// import { config } from "process";
 
 // Axios 인스턴스를 생성한다.
 const api = axios.create({
@@ -11,25 +12,27 @@ const api = axios.create({
 // axios-mock-adapter를 설정해 요청을 모킹한다.
 const mock = new MockAdapter(api);
 
+// 로컬스토리지에서 기존 사용자 데이터 가져오기
+let userTotalData = JSON.parse(localStorage.getItem("userList")) || []; // 기존 사용자 데이터 (없으면 빈 배열)
+console.log(userTotalData);
 // 로그인
 mock.onPost("/login").reply((config) => {
   // put요청중 data만 추출한다.
   const { id, password } = JSON.parse(config.data);
-  const user = testData.find(
-    (userData) => userData.id === id && userData.passWord === password
+  console.log(id);
+  console.log(password);
+  const user = userTotalData.find(
+    (userData) => userData.id === id && userData.password === password
   );
   if (user) {
+    console.log("들어오고 있어?");
     return [
       200,
       { message: "Login successful", token: "fake-jwt-token", data: user },
     ];
   } else {
-    alert("해당하는 아이디와 비밀번호는 이미 존재합니다.");
-    return [
-      401,
-      { message: "Invalid credentials" },
-      alert("해당하는 아이디와 비밀번호는 이미 존재합니다."),
-    ];
+    alert("해당하는 아이디와 비밀번호가 일치하지 않습니다.");
+    return [401, { message: "Invalid credentials" }];
   }
 });
 
@@ -38,14 +41,10 @@ mock.onPost("/userInsert").reply((config) => {
   // 새로운 데이터
   const { id, password, name, phone } = JSON.parse(config.data);
 
-  // 로컬스토리지에서 기존 사용자 데이터 가져오기
-  let userTotalData = JSON.parse(localStorage.getItem("userList")) || []; // 기존 사용자 데이터 (없으면 빈 배열)
-
   // userTotalData 데이터에서 중복 id값, 전화번호 값 필터링
   const userInfo = userTotalData.some(
     (info) => info.id === id || info.phone === phone
   );
-  console.log(userInfo);
 
   // 중복확인 및 처리
   if (userInfo) {
@@ -92,18 +91,21 @@ mock.onPost("/userInsert").reply((config) => {
 // mock.onGet("/userInfo").reply(200, userTotalData, console.log(userTotalData));
 
 mock.onGet("/userInfo").reply((config) => {
-  const { page = 1, limit = 10 } = config.params;
   // 로컬 스토리지에서 userList를 가져온다.
   const storedData = localStorage.getItem("userList");
   const userList = storedData ? JSON.parse(storedData) : [];
   console.log(userList);
 
+  const page = parseInt(config.params.page, 6) || 1;
+  const limit = parseInt(config.params.page, 6) || 1;
+
   const startIndex = (page - 1) * limit;
-  const endIndex = page * limit;
+  const paginateData = userList.slice(startIndex, startIndex + limit);
 
-  const paginatedUsers = userList.slice(startIndex, endIndex);
-
-  return [200, { users: paginatedUsers, totalCount: userList.length }];
+  return [
+    200,
+    { users: paginateData, totalPages: Math.ceil(userList.length / limit) },
+  ];
 });
 
 // 회원목록 상세정보

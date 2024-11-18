@@ -36,32 +36,17 @@ const UserInsert = () => {
         localStorage.setItem("userList", JSON.stringify(userInfoData));
 
         // 로컬 스토리지에서 기존 데이터 가져오기
-        const savedUserInfo = localStorage.getItem("userList");
-        console.log(savedUserInfo);
-        let updatedUserInfo = [];
-        if (savedUserInfo) {
-          updatedUserInfo = JSON.parse(savedUserInfo); // 기존 데이터를 파싱
-        }
+        // const savedUserInfo = localStorage.getItem("userList");
+        // let updatedUserInfo = [];
+        // if (savedUserInfo) {
+        //   updatedUserInfo = JSON.parse(savedUserInfo); // 기존 데이터를 파싱
+        // }
         // 새로운 사용자 정보를 기존 배열에 추가
-        const newUser = userInfoData[userInfoData.length - 1];
-        console.log(newUser);
+        // const newUser = userInfoData[userInfoData.length - 1];
         // updatedUserInfo.push(newUser);
 
-        // 중복 체크: 이미 존재하는 사용자 ID 또는 전화번호가 있는지 확인
-        const isDuplicate = updatedUserInfo.some(
-          (user: { id: any; phone: any }) =>
-            user.id === newUser.id || user.phone === newUser.phone
-        );
-
-        if (!isDuplicate) {
-          updatedUserInfo.push(newUser); // 중복되지 않으면 추가
-        } else {
-          console.log("중복된 사용자 정보가 있습니다.");
-        }
-
         // 로컬 스토리지 업데이트
-        localStorage.setItem("userList", JSON.stringify(updatedUserInfo));
-        console.log(updatedUserInfo);
+        // localStorage.setItem("userList", JSON.stringify(updatedUserInfo));
 
         navigate("/users");
       })

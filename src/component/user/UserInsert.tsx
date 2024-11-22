@@ -27,26 +27,13 @@ const UserInsert = () => {
         phone: userPhone,
       })
       .then((res) => {
-        console.log(res.data.userTotalData);
-        const userInfoData = res.data.userTotalData;
+        console.log(res.data.data);
+        const userInfoData = res.data.data;
         // 호출 성공 시 데이터 값을 Redux 상태에 저장
         dispatch(userList(userInfoData));
 
         // 로컬 스토리지에 사용자 정보 저장
-        localStorage.setItem("userList", JSON.stringify(userInfoData));
-
-        // 로컬 스토리지에서 기존 데이터 가져오기
-        // const savedUserInfo = localStorage.getItem("userList");
-        // let updatedUserInfo = [];
-        // if (savedUserInfo) {
-        //   updatedUserInfo = JSON.parse(savedUserInfo); // 기존 데이터를 파싱
-        // }
-        // 새로운 사용자 정보를 기존 배열에 추가
-        // const newUser = userInfoData[userInfoData.length - 1];
-        // updatedUserInfo.push(newUser);
-
-        // 로컬 스토리지 업데이트
-        // localStorage.setItem("userList", JSON.stringify(updatedUserInfo));
+        // localStorage.setItem("userList", JSON.stringify(userInfoData));
 
         navigate("/users");
       })
@@ -175,63 +162,6 @@ const UserInsert = () => {
         <h1 className="sectionTitle skyblue">
           ※등록회원의 담당 관리자를 선택해 주세요.
         </h1>
-      </section>
-      <section className="sectionBlock margin-top-10">
-        <table className="table">
-          <colgroup>
-            <col width="10%" />
-            <col width="10%" />
-            <col width="10%" />
-            <col width="15%" />
-            <col width="10%" />
-            <col width="10%" />
-            <col width="10%" />
-            <col width="10%" />
-            <col width="*" />
-          </colgroup>
-          <thead>
-            <tr>
-              <th className="textCenter">No.</th>
-              <th className="textCenter">아이디</th>
-              <th className="textCenter">이름</th>
-              <th className="textCenter">전화번호</th>
-              <th className="textCenter">구분</th>
-              <th className="textCenter">소속</th>
-              <th className="textCenter">직책</th>
-              <th className="textCenter">등록일</th>
-              <th className="textCenter">선택</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-
-        <div className="tablePagination clear">
-          <div className="btnLeft">
-            <button className="btn btn-gray btn-first ir" type="button">
-              첫 페이지
-            </button>
-            <button className="btn btn-gray btn-prev ir" type="button">
-              이전 페이지
-            </button>
-          </div>
-          <div className="btnCenter">
-            <button className="btn btn-gray" type="button">
-              1
-            </button>
-            <button className="btn btn-gray active" type="button">
-              2
-            </button>
-          </div>
-
-          <div className="btnRight">
-            <button className="btn btn-gray btn-next ir" type="button">
-              다음 페이지
-            </button>
-            <button className="btn btn-gray btn-last ir" type="button">
-              끝 페이지
-            </button>
-          </div>
-        </div>
       </section>
     </main>
   );

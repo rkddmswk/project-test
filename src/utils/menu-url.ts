@@ -1,4 +1,4 @@
-const menuUrl = [
+export const menuUrl = [
   {
     menuId: 1,
     menuNm: "홈",
@@ -54,5 +54,3 @@ const menuUrl = [
     url: "/management",
   },
 ];
-
-export { menuUrl };

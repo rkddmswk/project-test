@@ -1,15 +1,11 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import { menuUrl } from "../../utils/menu-url";
-import menu, { menuNav, menuNavLight } from "../../redux/menu";
+import { useNavigate } from "react-router-dom";
+import { menuNavLight } from "../../redux/menu";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 const Nav = () => {
-  // const location = useLocation();
-  // const { pathname } = location;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  dispatch(menuNav(menuUrl));
   const menuName = useSelector((state: any) => state.menu.menuItems);
   const lightMenu = useSelector((state: any) => state.menu.selectedMenu);
   const lightMenuNav = useSelector((state: any) => state.menu.selectedMenuNav);
@@ -75,47 +71,6 @@ const Nav = () => {
               ))}
           </ul>
         </nav>
-        {/* <nav className="headerNav">
-          <h2 className="sr-only">메뉴 리스트</h2>
-          <ul className="depth1">
-            {filterMenu}
-            {filterMenu.map((item: any) => (
-              <li key={item.menuId}>
-                <button
-                  className={lightMenu === item.menuId ? "active" : ""}
-                  onClick={() => navigate(item.url)}
-                >
-                  {item.menuNm}
-                </button>
-              </li>
-            ))}
-            <li>
-              {pathname === "/main" ? (
-                <button className="iconCompany active" type="button">
-                  홈
-                </button>
-              ) : (
-                <button className="iconCompany active" type="button">
-                  회원관리
-                </button>
-              )}
-              {pathname !== "/main"
-                ? navUrl.map((item) => (
-                    <ul className="depth2" style={{ display: "block" }}>
-                      <li>
-                        <a
-                          href={item.url}
-                          className={pathname === item.url ? "active" : ""}
-                        >
-                          {item.name}
-                        </a>
-                      </li>
-                    </ul>
-                  ))
-                : null}
-            </li>
-          </ul>
-        </nav> */}
       </header>
       {/* header end */}
     </>

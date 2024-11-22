@@ -1,22 +1,21 @@
 import { Box, Typography, Button, ButtonGroup } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
 import { setUser } from "../../redux/user";
 import api from "../../api/api";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
   const inputIdRef = useRef<HTMLInputElement>(null);
   const inputPwRef = useRef<HTMLInputElement>(null);
 
-  const dispatch = useDispatch();
-
-  // 로그인 api호출하기
+  // 로그인버튼
   const handleLoginController = () => {
+    // 아이디가 빈값일때 포커싱
     if (userId === "") {
       alert("아이디를 입력해주세요");
       if (inputIdRef.current) {
@@ -25,18 +24,20 @@ const Login = () => {
       return;
     } else if (userPw === "") {
       alert("비밀번호를 입력해주세요");
+      // 비밀번호가 빈값일때 포커싱
       if (inputPwRef.current) {
         inputPwRef.current.focus();
       }
       return;
     }
+    // api호출후 api.js에서 서버처리 요청
     api
       .post("https://localhost:3000/api/login", {
         id: userId,
         password: userPw,
       })
       .then((res) => {
-        // console.log(res.data.data);
+        // console.log(res.data);
         const userData = res.data.data;
         if (res.data) {
           // 로그인 성공시
@@ -44,7 +45,7 @@ const Login = () => {
           // Redux에 사용자 정보 저장
           dispatch(setUser(userData));
           // 세션 스토리지에 사용자 정보 저장
-          sessionStorage.setItem("user", JSON.stringify(userData));
+          // sessionStorage.setItem("userData", JSON.stringify(userData));
           navigate("/main");
         }
       })
@@ -60,8 +61,17 @@ const Login = () => {
     >
       <Box className="guestBox">
         <Box>
+          {/* 로고 */}
           <Box className="login-logo">
-            <img src="./img/logo_login.png" />
+            <h1
+              className="logo ir"
+              onClick={() => navigate("/main")}
+              style={{
+                cursor: "pointer",
+                margin: "0 auto",
+                width: "150px",
+              }}
+            ></h1>
           </Box>
           <Typography className="headerText">관리자 로그인</Typography>
         </Box>
@@ -75,7 +85,7 @@ const Login = () => {
                 id="id"
                 type="text"
                 maxLength={15}
-                placeholder="아이디를 입력해 주세요."
+                placeholder="아이디를 입력해 주세요.(15자 내외)"
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
                 ref={inputIdRef}
@@ -88,7 +98,7 @@ const Login = () => {
                 id="passwd"
                 type="password"
                 maxLength={15}
-                placeholder="패스워드를 입력해 주세요."
+                placeholder="패스워드를 입력해 주세요.(15자 내외)"
                 value={userPw}
                 onChange={(e) => setUserPw(e.target.value)}
                 ref={inputPwRef}

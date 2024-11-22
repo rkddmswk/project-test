@@ -6,15 +6,11 @@ import UserInsert from "./component/user/UserInsert";
 import UserDetail from "./component/user/UserDetail";
 import { RecoilRoot } from "recoil";
 import { Provider } from "react-redux";
-
-import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux";
 import Layout from "./layouts";
-const App = () => {
-  // Redux store 생성
-  const persistorLocal = persistStore(store); // 로컬 스토리지를 위한 persistor
 
+const App = () => {
   return (
     <RecoilRoot>
       <Provider store={store}>

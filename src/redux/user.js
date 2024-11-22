@@ -4,24 +4,19 @@ const initialState = {
     id: "",
     passWord: "",
     name: "",
-    // phone: "",
-    // address: "",
-    // coin: 0,
-    // update: "",
-    // lastDate: "",
   },
 };
 
 // 액션 타입
-const SET_USER = "SET_USER";
-const LOG_OUT = "LOG_OUT";
+const SET_USER = "SET_USER"; // 로그인 액션
+const LOG_OUT = "LOG_OUT"; // 로그아웃 액션
 
 // 액션 함수
 export const setUser = (data) => ({
   type: SET_USER,
   payload: data,
-  // data,
 });
+
 export const logOut = () => ({ type: LOG_OUT });
 
 function user(state = initialState, action) {
@@ -33,7 +28,7 @@ function user(state = initialState, action) {
         user: action.payload,
       };
     case LOG_OUT:
-      // console.log("LOG_OUT action.data:", action.data);
+      console.log("LOG_OUT action.data:", action.data);
       return {
         ...initialState,
       };

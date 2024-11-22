@@ -1,57 +1,63 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  Drawer,
-  Paper,
-  Tab,
-  Tabs,
-  Toolbar,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import { useEffect, useState } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { menuLight, menuNav } from "../../redux/menu";
-import { menuUrl } from "../../utils/menu-url";
-import { logOut, setUser } from "../../redux/user";
+import { menuLight, menuName } from "../../redux/menu";
+import { logOut } from "../../redux/user";
+import api from "../../api/api";
 
 const Header = () => {
-  const [selectedMenu, setSelectedMenu] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // dispatch(menuNav(menuUrl));
-  const menuName = useSelector((state: any) => state.menu.menuItems); // 메뉴
-  const lightMenu = useSelector((state: any) => state.menu.selectedMenu); // 선택된메뉴
+  // 리덕스 스토어에서 현재 상태를 가져와서 업데이트 처리된다.
   const user = useSelector((state: any) => state.user.user); // 로그인
+  const menuItems = useSelector((state: any) => state.menu.menuItems); // 메뉴
+  const lightMenu = useSelector((state: any) => state.menu.selectedMenu); // 선택된메뉴
+
+  // 화면진입시 실행
+  // useEffect(() => {
+  //   // console.log(menuItems.length);
+  //   if (menuItems.length) {
+  //     menuHandler();
+  //   }
+  // }, []);
 
   useEffect(() => {
-    dispatch(menuNav(menuUrl));
-  }, [dispatch]);
+    menuHandler();
+  }, []);
 
-  useEffect(() => {
-    const savedUser = sessionStorage.getItem("user");
-    if (savedUser) {
-      dispatch(setUser(JSON.parse(savedUser))); // Redux 상태에 사용자 정보 저장
-    }
-  }, [dispatch]); // dispatch에 의존
+  const menuHandler = () => {
+    api
+      .get("https://localhost:3000/api/menuName")
+      .then((res) => {
+        console.log(res.data.data);
+        const menuData = res.data.data;
+        if (menuData) {
+          // Redux에 메뉴명 저장
+          dispatch(menuName(menuData));
+          // 세션 스토리지에 메뉴명 저장
+          // localStorage.setItem("menuData", JSON.stringify(menuData));
+        }
+      })
+      .catch((error) => {
+        console.log("Login failed", error);
+      });
+  };
 
+  // 선택한 메뉴 하이라이트
+  const handleMenuClick = (menuId: any) => {
+    // console.log(menuId);
+    dispatch(menuLight(menuId));
+  };
+
+  // 로그아웃
   const handleLogoutController = async () => {
     alert("로그아웃되었습니다.");
     dispatch(logOut());
-    sessionStorage.removeItem("user"); // 세션 스토리지에서 사용자 정보 삭제
+    sessionStorage.removeItem("userData"); // 세션 스토리지에서 사용자 정보 삭제
     navigate("/");
-  };
-
-  const handleMenuClick = (menuId: any) => {
-    console.log(menuId);
-    setSelectedMenu(menuId);
-    dispatch(menuLight(menuId));
   };
 
   return (
@@ -59,14 +65,12 @@ const Header = () => {
       <div className="left clearfix">
         <nav className="headerTopNav">
           <ul>
-            {menuName.map((item: any, index: number) => (
+            {menuItems.map((item: any, index: number) => (
               <li key={index}>
                 <a
                   href={item.url}
                   className={lightMenu === item.menuId ? "active" : ""}
-                  // className={lightMenu.includes(item.menuId) ? "active" : ""}
-                  onClick={(e) => {
-                    // e.preventDefault();
+                  onClick={() => {
                     handleMenuClick(item.menuId);
                   }}
                 >

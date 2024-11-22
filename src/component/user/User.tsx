@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Table,
   TableBody,
@@ -11,14 +10,14 @@ import {
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import Header from "../../layouts/header/header";
 // import Nav from "../../layouts/nav/nav";
 import { useEffect, useState } from "react";
 import api from "../../api/api";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { deleteUser, userList } from "../../redux/menu";
+import { deleteUser } from "../../redux/menu";
 import Pagination from "react-js-pagination";
 import "../../assets/css/pagination.css";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
@@ -50,9 +49,9 @@ const User = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   // 페이지가 바뀌거나 필터 변경으로 리스트 변경 시, currentList 다시 정의
-  useEffect(() => {
-    setCurrentList(userListData.slice(indexOfFirstItem, indexOfLastItem));
-  }, [page, userListData]);
+  // useEffect(() => {
+  //   setCurrentList(userListData.slice(indexOfFirstItem, indexOfLastItem));
+  // }, [page, userListData]);
 
   // 초기화
   // useEffect(() => {
@@ -346,7 +345,7 @@ const User = () => {
           </Table>
         </TableContainer>
       </section>
-      <Pagination
+      {/* <Pagination
         activePage={page} // 현재 페이지
         itemsCountPerPage={itemsPerPage} // 한 페이지 당 보여줄 아이템 갯수
         totalItemsCount={userListData.length} // 총 아이템 갯수
@@ -354,7 +353,7 @@ const User = () => {
         prevPageText={"<"} // "이전"을 나타낼 텍스트
         nextPageText={">"} // "다음"을 나타낼 텍스트
         onChange={changePageHandler} // 페이지 변경을 핸들링하는 함수
-      />
+      /> */}
     </main>
   );
 };

@@ -10,14 +10,14 @@ import user from "./user";
 const menuPersistConfig = {
   key: "menu",
   storage: storage, // localStorage 사용
-  whitelist: ["menu"], // menu 리듀서만 localStorage에 저장
+  // whitelist: ["menu"], // menu 리듀서만 localStorage에 저장
   // blacklist: ["user"], // user는 제외 (세션스토리지에서 관리)
 };
 
 const userPersistConfig = {
   key: "user",
   storage: storageSession, // 세션스토리지 사용
-  blacklist: ["user"],
+  // blacklist: ["user"],
 };
 
 export const rootReducer = combineReducers({

@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../api/api";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 import { deleteUser } from "../../redux/menu";
 import Pagination from "react-js-pagination";
 import "../../assets/css/pagination.css";
@@ -29,14 +28,9 @@ import dayjs from "dayjs";
 const User = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userListData = useSelector((state: any) => state.menu.userList);
-
-  // 로컬 스토리지에서 userList를 가져온다.
-  // const storedData = localStorage.getItem("userList");
-  // const userList = storedData ? JSON.parse(storedData) : [];
-  const [currentList, setCurrentList] = useState(userListData); // slice된 리스트
+  const [currentList, setCurrentList] = useState([]); // slice된 리스트
   const [page, setPage] = useState(1); // 현재페이지 번호
-  const itemPerPate = 10; // 페이지당 아이템 개수
+  const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 6; // 페이지 당 게시글 개수
 
   // 페이지 이동
@@ -44,31 +38,10 @@ const User = () => {
     setPage(page);
   };
 
-  // userList slice할 index 범위
-  const indexOfLastItem = page * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
-  // 페이지가 바뀌거나 필터 변경으로 리스트 변경 시, currentList 다시 정의
-  // useEffect(() => {
-  //   setCurrentList(userListData.slice(indexOfFirstItem, indexOfLastItem));
-  // }, [page, userListData]);
-
   // 초기화
   // useEffect(() => {
   //   dispatch(userList([])); // 빈 배열로 초기화
   // }, [dispatch]); // dispatch가 변경되면 실행
-
-  // 컴포넌트가 렌더링될 때 로컬 스토리지에서 데이터를 가져옵니다.
-  // useEffect(() => {
-  //   const savedUserInfo = localStorage.getItem("userInfo");
-  //   // console.log(savedUserInfo);
-  //   if (savedUserInfo) {
-  //     // 로컬 스토리지에서 사용자 정보 가져오기
-  //     const userInfo = JSON.parse(savedUserInfo);
-  //     // 리덕스 상태에 저장
-  //     dispatch(userList(userInfo));
-  //   }
-  // }, [dispatch]);
 
   // 테이블 헤더 데이터
   const headerData = [
@@ -97,14 +70,21 @@ const User = () => {
   // 최초실행
   useEffect(() => {
     searchHandler();
-  }, []);
+  }, [page]);
 
   const searchHandler = () => {
     api
-      .get("https://localhost:3000/api/userInfo")
+      .get("https://localhost:3000/api/userInfo", {
+        params: {
+          page: page,
+          items: itemsPerPage,
+        },
+      })
       .then((res) => {
-        console.log(res.data);
-        // dispatch(userList(res.data));
+        if (res.data) {
+          setCurrentList(res.data.data); // 현재 페이지 데이터 설정
+          setTotalItems(res.data.totalItems); // 전체 아이템 수
+        }
       })
       .catch((error) => {
         console.log("Login failed", error);
@@ -112,7 +92,6 @@ const User = () => {
   };
 
   const handleDetailController = (rowKey: number) => {
-    console.log(rowKey);
     navigate(`/users/usersDetail/${rowKey}`);
   };
 
@@ -125,29 +104,22 @@ const User = () => {
     api
       .post("https://localhost:3000/api/userInfo/delete", { key: key })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         const deleteData = res.data;
 
         // 리덕스 상태 업데이트
         dispatch(deleteUser(key));
 
-        // 로컬 스토리지에서 기존 데이터 가져오기
-        // const storedUserList = JSON.parse(
-        //   localStorage.getItem("userList") || "[]"
-        // );
-        // const updatedUserList = storedUserList.filter(
-        //   (user: { key: number }) => user.key !== key
-        // );
         // 로컬 스토리지 업데이트
         localStorage.setItem("userList", JSON.stringify(deleteData));
         searchHandler();
 
         alert("사용자가 삭제되었습니다.");
+      })
+      .catch((error) => {
+        console.log("Login failed", error);
+        alert("사용자 삭제에 실패했습니다. 다시 시도해주세요.");
       });
-    // .catch((error) => {
-    //   console.log("Login failed", error);
-    //   alert("사용자 삭제에 실패했습니다. 다시 시도해주세요.");
-    // });
   };
 
   return (
@@ -290,70 +262,66 @@ const User = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {Array.isArray(currentList) && currentList.length > 0
-                ? currentList.map((content: any, index: number) => (
-                    <TableRow
-                      key={content.key}
-                      sx={{ cursor: "pointer" }}
-                      hover
-                      onClick={() => handleDetailController(content.key)}
+              {currentList.map((content: any, index: number) => (
+                <TableRow
+                  key={content.key}
+                  sx={{ cursor: "pointer" }}
+                  hover
+                  onClick={() => handleDetailController(content.key)}
+                >
+                  <TableCell>{(page - 1) * itemsPerPage + index + 1}</TableCell>
+                  <TableCell>{content.id}</TableCell>
+                  <TableCell>{content.phone}</TableCell>
+                  <TableCell>{content.address}</TableCell>
+                  <TableCell>{content.coin}</TableCell>
+                  <TableCell>{content.update}</TableCell>
+                  <TableCell>
+                    <Button
+                      sx={{ border: "1px solid #3695ff", borderRadius: 0 }}
                     >
-                      <TableCell>
-                        {(page - 1) * itemsPerPage + index + 1}
-                      </TableCell>
-                      <TableCell>{content.id}</TableCell>
-                      <TableCell>{content.phone}</TableCell>
-                      <TableCell>{content.address}</TableCell>
-                      <TableCell>{content.coin}</TableCell>
-                      <TableCell>{content.update}</TableCell>
-                      <TableCell>
-                        <Button
-                          sx={{ border: "1px solid #3695ff", borderRadius: 0 }}
-                        >
-                          코인변경
-                        </Button>
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          sx={{
-                            color: "white",
-                            background: "#484848",
-                            borderRadius: 0,
-                          }}
-                          onClick={(event) =>
-                            handleDeleteController(event, content.key)
-                          }
-                        >
-                          회원삭제{" "}
-                        </Button>
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          sx={{
-                            color: "white",
-                            background: "#b83535",
-                            borderRadius: 0,
-                          }}
-                        >
-                          거래차단{" "}
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                : null}
+                      코인변경
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      sx={{
+                        color: "white",
+                        background: "#484848",
+                        borderRadius: 0,
+                      }}
+                      onClick={(event) =>
+                        handleDeleteController(event, content.key)
+                      }
+                    >
+                      회원삭제{" "}
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      sx={{
+                        color: "white",
+                        background: "#b83535",
+                        borderRadius: 0,
+                      }}
+                    >
+                      거래차단{" "}
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
       </section>
-      {/* <Pagination
+      <Pagination
         activePage={page} // 현재 페이지
         itemsCountPerPage={itemsPerPage} // 한 페이지 당 보여줄 아이템 갯수
-        totalItemsCount={userListData.length} // 총 아이템 갯수
+        totalItemsCount={totalItems} // 총 아이템 갯수
         pageRangeDisplayed={5} // paginator에 나타낼 페이지 범위
         prevPageText={"<"} // "이전"을 나타낼 텍스트
         nextPageText={">"} // "다음"을 나타낼 텍스트
         onChange={changePageHandler} // 페이지 변경을 핸들링하는 함수
-      /> */}
+      />
     </main>
   );
 };

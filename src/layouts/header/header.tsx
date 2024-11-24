@@ -32,7 +32,7 @@ const Header = () => {
     api
       .get("https://localhost:3000/api/menuName")
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         const menuData = res.data.data;
         if (menuData) {
           // Redux에 메뉴명 저장

@@ -11,6 +11,9 @@ const UserInsert = () => {
   const [userName, setUserName] = useState("");
   const [userPhone, setUserPhone] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [userAddress, setUserAddress] = useState("");
+  const [userUpdate, setUserUpdate] = useState("");
+  const [userCoin, setUserCoin] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -25,6 +28,9 @@ const UserInsert = () => {
         password: userPassword,
         name: userName,
         phone: userPhone,
+        address: userAddress,
+        coin: userCoin,
+        update: userUpdate,
       })
       .then((res) => {
         console.log(res.data.data);
@@ -124,6 +130,48 @@ const UserInsert = () => {
                     value={userPassword}
                     maxLength={15}
                     onChange={(e) => setUserPassword(e.target.value)}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="label">지갑주소</td>
+                <td>
+                  <input
+                    id="address"
+                    name="address"
+                    type="text"
+                    placeholder="지갑주소를 입력해주세요"
+                    value={userAddress}
+                    maxLength={15}
+                    onChange={(e) => setUserAddress(e.target.value)}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="label">코인잔액</td>
+                <td>
+                  <input
+                    id="coin"
+                    name="coin"
+                    type="text"
+                    placeholder="코인잔액을 입력해주세요"
+                    value={userCoin}
+                    maxLength={15}
+                    onChange={(e) => setUserCoin(e.target.value)}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td className="label">등록일</td>
+                <td>
+                  <input
+                    id="update"
+                    name="update"
+                    type="text"
+                    placeholder="등록일자를 입력해주세요"
+                    value={userUpdate}
+                    maxLength={15}
+                    onChange={(e) => setUserUpdate(e.target.value)}
                   />
                 </td>
               </tr>

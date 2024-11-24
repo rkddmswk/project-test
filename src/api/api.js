@@ -4,6 +4,7 @@ import { testData } from "../testData";
 import { menuUrl } from "../utils/menu-url";
 import { store } from "../redux/index";
 import { userList } from "../redux/menu";
+import dayjs from "dayjs";
 
 // Axios 인스턴스를 생성한다.
 const api = axios.create({
@@ -123,8 +124,29 @@ mock.onGet("/userInfo").reply((config) => {
   const items = parseInt(params.items, 10) || 6; // 페이지당 아이템수
   const startIndex = (page - 1) * items;
   const endIndex = startIndex + items;
-  const userListData = userList.slice(startIndex, endIndex); // 데이터 슬라이스
-  const totalItems = userList.length; // 전체 데이터 개수
+
+  // 날짜 필터링 처리
+  const { startDate, endDate } = params;
+  let filteredUserList = userList;
+
+  // startDate 이후의 데이터만 필터링
+  if (startDate) {
+    filteredUserList = filteredUserList.filter((user) =>
+      dayjs(user.update).isAfter(dayjs(startDate).subtract(1, "day"))
+    );
+  }
+
+  // endDate 이전의 데이터만 필터링
+  if (endDate) {
+    filteredUserList = filteredUserList.filter(
+      (user) => dayjs(user.update).isBefore(dayjs(endDate).add(1, "day")) // 사용자가 입력한 날짜 포함해서 필터링
+    );
+  }
+
+  const userListData = filteredUserList.slice(startIndex, endIndex); // 데이터 슬라이스
+  // console.log(userListData);
+  const totalItems = filteredUserList.length; // 전체 데이터 개수
+
   return [
     200,
     {
@@ -133,7 +155,6 @@ mock.onGet("/userInfo").reply((config) => {
       totalItems: totalItems,
     },
   ];
-  // return [200, userListData , console.log(userListData)];
 });
 
 // 회원목록 상세정보
@@ -164,7 +185,6 @@ mock.onPost("/userInfo/delete").reply((config) => {
 
   // Redux 상태에서 사용자 목록 가져오기
   const userListData = [...getReduxUserList()];
-  // console.log(userListData);
 
   const userIndex = userListData.findIndex((user) => user.key === numberKey);
   // console.log(userIndex);

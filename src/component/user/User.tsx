@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Table,
   TableBody,
@@ -23,7 +24,8 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
+import { start } from "repl";
 
 const User = () => {
   const navigate = useNavigate();
@@ -32,10 +34,21 @@ const User = () => {
   const [page, setPage] = useState(1); // 현재페이지 번호
   const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 6; // 페이지 당 게시글 개수
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
+  const [startDate, setStartDate] = useState<Dayjs | null>(null); // 시작 날짜
+  const [endDate, setEndDate] = useState<Dayjs | null>(null); // 종료 날짜
 
   // 페이지 이동
   const changePageHandler = (page: number) => {
     setPage(page);
+  };
+
+  const handleStartDateChange = (newDate: Dayjs | null) => {
+    setStartDate(newDate);
+  };
+
+  const handleEndDateChange = (newDate: Dayjs | null) => {
+    setEndDate(newDate);
   };
 
   // 초기화
@@ -70,7 +83,7 @@ const User = () => {
   // 최초실행
   useEffect(() => {
     searchHandler();
-  }, [page]);
+  }, [page, startDate, endDate]);
 
   const searchHandler = () => {
     api
@@ -78,6 +91,8 @@ const User = () => {
         params: {
           page: page,
           items: itemsPerPage,
+          startDate: startDate ? startDate.format("YYYY-MM-DD") : "", // 선택된 시작일
+          endDate: endDate ? endDate.format("YYYY-MM-DD") : "",
         },
       })
       .then((res) => {
@@ -137,12 +152,29 @@ const User = () => {
             <tbody>
               <tr>
                 <td className="label">기간</td>
-                <td>
+                <td
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DesktopDatePicker"]}>
+                    <DemoContainer
+                      components={["DesktopDatePicker"]}
+                      sx={{
+                        "& .MuiStack-root": {
+                          overflow: "hidden", // 스크롤바 제거
+                        },
+                      }}
+                    >
                       <DemoItem>
                         <DesktopDatePicker
-                          defaultValue={dayjs("2022-04-17")}
+                          // defaultValue={dayjs("2022-04-17")}
+                          format="YYYY-MM-DD"
+                          showDaysOutsideCurrentMonth // 이전/이후 달의 날짜도 보이게 설정
+                          value={startDate}
+                          onChange={handleStartDateChange}
                           sx={{
                             width: 200,
                             height: 30,
@@ -153,17 +185,13 @@ const User = () => {
                               fontSize: "12px", // Adjust font size
                               backgroundColor: "#f0f0f0", // 배경색
                             },
-                            ".MuiInputBase-input": {
-                              // 스핀 버튼 제거
-                              "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button":
-                                {
-                                  WebkitAppearance: "none",
-                                  margin: 0,
-                                },
-                              MozAppearance: "textfield", // Firefox 대응
-                              inputMode: "text", // 숫자 모드 제거
-                            },
                           }}
+                          // shouldDisableDate={(day) => {
+                          //   if (selectedDate) {
+                          //     return day.isBefore(selectedDate, "day");
+                          //   }
+                          //   return false;
+                          // }}
                         />
                       </DemoItem>
                     </DemoContainer>
@@ -178,19 +206,37 @@ const User = () => {
                   /> */}
                   ~
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DesktopDatePicker"]}>
+                    <DemoContainer
+                      components={["DesktopDatePicker"]}
+                      sx={{
+                        "& .MuiStack-root": {
+                          overflow: "hidden", // 스크롤바 제거
+                        },
+                      }}
+                    >
                       <DemoItem>
                         <DesktopDatePicker
-                          defaultValue={dayjs("2022-04-17")}
+                          format="YYYY-MM-DD"
+                          showDaysOutsideCurrentMonth
+                          value={endDate}
+                          onChange={handleEndDateChange}
+                          // defaultValue={dayjs("2022-04-17")}
                           sx={{
-                            width: 150,
+                            width: 200,
                             height: 30,
                             ".MuiInputBase-root": {
+                              width: 200,
                               height: 30,
-                              padding: "2px 4px", // Adjust internal padding
+                              // padding: "2px 4px", // Adjust internal padding
                               fontSize: "12px", // Adjust font size
                               backgroundColor: "#f0f0f0", // 배경색
                             },
+                          }}
+                          shouldDisableDate={(day) => {
+                            if (startDate) {
+                              return day.isBefore(startDate, "day"); // 선택한 날짜 이후로 선택 불가능
+                            }
+                            return false;
                           }}
                         />
                       </DemoItem>
@@ -229,6 +275,7 @@ const User = () => {
                     className="btn btn-big btn-skyblue"
                     type="button"
                     id="searchBtn"
+                    onClick={() => searchHandler()}
                   >
                     <i className="fas fa-search"></i> 검색
                   </button>
@@ -313,15 +360,28 @@ const User = () => {
           </Table>
         </TableContainer>
       </section>
-      <Pagination
-        activePage={page} // 현재 페이지
-        itemsCountPerPage={itemsPerPage} // 한 페이지 당 보여줄 아이템 갯수
-        totalItemsCount={totalItems} // 총 아이템 갯수
-        pageRangeDisplayed={5} // paginator에 나타낼 페이지 범위
-        prevPageText={"<"} // "이전"을 나타낼 텍스트
-        nextPageText={">"} // "다음"을 나타낼 텍스트
-        onChange={changePageHandler} // 페이지 변경을 핸들링하는 함수
-      />
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 1000,
+          padding: "10px 0",
+          width: "100%",
+          textAlign: "center",
+        }}
+      >
+        <Pagination
+          activePage={page} // 현재 페이지
+          itemsCountPerPage={itemsPerPage} // 한 페이지 당 보여줄 아이템 갯수
+          totalItemsCount={totalItems} // 총 아이템 갯수
+          pageRangeDisplayed={5} // paginator에 나타낼 페이지 범위
+          prevPageText={"<"}
+          nextPageText={">"}
+          onChange={changePageHandler} // 페이지 변경을 핸들링하는 함수
+        />
+      </Box>
     </main>
   );
 };

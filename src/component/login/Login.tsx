@@ -38,12 +38,12 @@ const Login = () => {
       })
       .then((res) => {
         // console.log(res.data);
-        const userData = res.data.data;
+        // const userData = res.data.data;
         if (res.data) {
           // 로그인 성공시
           alert("환영합니다.");
           // Redux에 사용자 정보 저장
-          dispatch(setUser(userData));
+          // dispatch(setUser(userData));
           // 세션 스토리지에 사용자 정보 저장
           // sessionStorage.setItem("userData", JSON.stringify(userData));
           navigate("/main");

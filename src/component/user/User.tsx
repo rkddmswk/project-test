@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../api/api";
 import { useDispatch } from "react-redux";
-import { deleteUser } from "../../redux/menu";
+import { deleteUser, userList } from "../../redux/menu";
 import Pagination from "react-js-pagination";
 import "../../assets/css/pagination.css";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
@@ -120,13 +120,13 @@ const User = () => {
       .post("https://localhost:3000/api/userInfo/delete", { key: key })
       .then((res) => {
         // console.log(res.data);
-        const deleteData = res.data;
+        // const deleteData = res.data;
 
         // 리덕스 상태 업데이트
-        dispatch(deleteUser(key));
+        // dispatch(deleteUser(key));
 
         // 로컬 스토리지 업데이트
-        localStorage.setItem("userList", JSON.stringify(deleteData));
+        // localStorage.setItem("userList", JSON.stringify(deleteData));
         searchHandler();
 
         alert("사용자가 삭제되었습니다.");

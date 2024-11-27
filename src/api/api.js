@@ -4,6 +4,9 @@ import { testData } from "../testData";
 import { menuUrl } from "../utils/menu-url";
 import { store } from "../redux/index";
 import { userList } from "../redux/menu";
+import { setUser } from "../redux/user";
+import { menuName } from "../redux/menu";
+import { deleteUser } from "../redux/menu";
 import dayjs from "dayjs";
 
 // Axios 인스턴스를 생성한다.
@@ -44,6 +47,7 @@ mock.onPost("/login").reply((config) => {
   const userData = getReduxUserList().find(
     (userData) => userData.id === id && userData.password === password
   );
+  store.dispatch(setUser(userData));
 
   if (userData) {
     return [
@@ -58,9 +62,16 @@ mock.onPost("/login").reply((config) => {
 });
 
 // 메뉴
-mock
-  .onGet("/menuName")
-  .reply(200, { message: "menu successful", data: menuUrl });
+// mock
+//   .onGet("/menuName")
+//   .reply(200, { message: "menu successful", data: menuUrl });
+
+mock.onGet("/menuName").reply(() => {
+  if (menuUrl) {
+    store.dispatch(menuName(menuUrl));
+  }
+  return [200, { message: "menu successful", data: menuUrl }];
+});
 
 // 회원등록
 mock.onPost("/userInsert").reply((config) => {
@@ -74,10 +85,10 @@ mock.onPost("/userInsert").reply((config) => {
   // console.log(userListData);
 
   // 초기 상태가 비어 있으면 testData를 사용
-  if (userListData.length === 0) {
-    userListData = [...testData];
-    store.dispatch(userList(userListData)); // Redux 상태 초기화
-  }
+  // if (userListData.length === 0) {
+  //   userListData = [...testData];
+  //   store.dispatch(userList(userListData)); // Redux 상태 초기화
+  // }
 
   // testData 데이터에서 중복 id값, 전화번호값 필터링
   const userInfo = userListData.some(
@@ -98,7 +109,7 @@ mock.onPost("/userInsert").reply((config) => {
     // testData.push(newUserWithKey);
     const updatedList = [...userListData, newUserWithKey];
     // console.log(updatedList);
-
+    store.dispatch(userList(updatedList));
     // Redux 상태 업데이트
     // store.dispatch(userList(updatedList));
 
@@ -196,6 +207,7 @@ mock.onPost("/userInfo/delete").reply((config) => {
     // console.log("사용자 삭제 성공:", numberKey);
     // Redux 상태 업데이트
     store.dispatch(userList(updatedUserList));
+    store.dispatch(deleteUser(userListData));
     return [200, { message: "User deleted successfully", userListData }];
   } else {
     console.log("사용자를 찾을 수 없음:", numberKey);

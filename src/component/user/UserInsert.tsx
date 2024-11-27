@@ -34,9 +34,9 @@ const UserInsert = () => {
       })
       .then((res) => {
         console.log(res.data.data);
-        const userInfoData = res.data.data;
+        // const userInfoData = res.data.data;
         // 호출 성공 시 데이터 값을 Redux 상태에 저장
-        dispatch(userList(userInfoData));
+        // dispatch(userList(userInfoData));
 
         // 로컬 스토리지에 사용자 정보 저장
         // localStorage.setItem("userList", JSON.stringify(userInfoData));

@@ -36,7 +36,7 @@ const Header = () => {
         const menuData = res.data.data;
         if (menuData) {
           // Redux에 메뉴명 저장
-          dispatch(menuName(menuData));
+          // dispatch(menuName(menuData));
           // 세션 스토리지에 메뉴명 저장
           // localStorage.setItem("menuData", JSON.stringify(menuData));
         }
